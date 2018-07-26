@@ -6,8 +6,8 @@ ARG app_env
 ENV APP_ENV $app_env
 
 # set working directory in container so all subsequent commands will run from this directory
-WORKDIR /go/src/github.com/khaiphongprajna/batien/personadb
-COPY . /go/src/github.com/khaiphongprajna/batien/personadb
+WORKDIR /go/src/github.com/khaiphong/personadb
+COPY . /go/src/github.com/khaiphong/personadb
 
 RUN go get .
 RUN go build
@@ -21,8 +21,8 @@ CMD if [ ${APP_ENV} = production ]; \
 	fi
 
 # FROM alpine AS containerd-runtime
-# COPY --from=build-env /go/src/github.com/khaiphongprajna/batien/personadb \
-#                      /go/src/github.com/khaiphongprajna/batien/personadb
+# COPY --from=build-env /go/src/github.com/khaiphong/personadb \
+#                      /go/src/github.com/khaiphong/personadb
 
 # Make port 8080 available to the world outside this container
 EXPOSE 8080

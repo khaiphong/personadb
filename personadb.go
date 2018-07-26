@@ -1,4 +1,6 @@
-/* Copyright (c) 2017 KhaiPhong = LevelDB and SimpleDB */
+/**
+  Copyright (c) 2017 KhaiPhong (based on LevelDB, SimpleDB, Promethus, Saga, OpenFaaS, TimeSeries, Docker Alpine, LedisDB, go-memdb) 
+**/
 package main
 
 import (
