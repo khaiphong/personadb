@@ -2,4 +2,4 @@ PersonaDB is a private database of each legal entity (user, organisation, servic
 
 The database is connected to evolving cryptographic systems at ThankYou clubs (local Machine Learnings and Smart Contracts where digital money has strong guarantees of fraud-free commerce) to guarantee about timestamps and immutability of ordering facts and events via proof of stakes in Settlement Layer.
 
-By selecting the location of the crypto system, you are subjected only to the governing laws that the system must conform in balancing between individual and state rights where Invisible Market Values according to natural laws such as Empathy and Economics operate.
+By selecting the location of the crypto system, you are subjected only to the governing laws that the system must conform in balancing between individual and state rights where Invisible Market Values according to natural laws such as Empathy and Economics operate. You can have your own private crypto systems located at your selected data centre to be completely under your control.
