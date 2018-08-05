@@ -1,6 +1,4 @@
-/**
-  Copyright (c) 2017 KhaiPhong (based on LevelDB, SimpleDB, Promethus, Saga, OpenFaaS, TimeSeries, Docker Alpine, LedisDB, go-memdb) 
-**/
+/* Copyright (c) 2017 KhaiPhong */
 package main
 
 import (
@@ -19,34 +17,44 @@ func indexHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 }
 
 type Bucket struct {
-  Email, Label, Tag string
+  // Test the serverlessFunction to JSON decode all event data of this Bucket
+  // label, tag, serverlessFunction  string
+  ContextAtts map[string][]byte
+
   ListB *Bucket
   ListN *Node
   Action *Event
   Relation *Event
-  // triggers of serverless cloud functions
-  Source map[string][]byte
-//  TimeStamp time.Now()
 }
 type Node struct {
-  Email, Label, Tag  string
+  // Test the serverlessFunction to JSON decode all event data of this Node
+  // label, tag, serverlessFunction  string
+  ContextAtts map[string][]byte
+
   ListB *Bucket
   Action *Event
   Relation *Event
-  // triggers of serverless cloud functions
-  Source map[string][]byte
-//  TimeStamp time.Now()
 }
 type Event struct { // use https://github.com/cloudevents/spec
-  Email, Label, Tag,
-    SourceNode, TypeNode, TargetNode, RdfSource, SourceSIC, TargetSIC string
-  Rating, Value1, Value2 string
   Action *Node
-  // triggers of serverless cloud functions
-  Source map[string][]byte
-//  TimeStamp time.Now()
+
+  TimeStamp eventTime
+  // eventType, cloudEventsVersion, source, eventID, schemaURL, contentType  string
+  ContextAtts map[string][]byte
+  // sourceNode, typeNode, targetNode, rdfSource, sourceSIC, targetSIC string
+  // label, tag, rating, value1, value2, serverlessFunction string -> the extensions
+  Extensions map[string][]byte
+
+  Object Data
 }
 
+func dataExtraction (w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+	fmt.Fprintf(w, "Securely Data extraction!")
+}
+
+func composableEvent (w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+	fmt.Fprintf(w, "Event Injection, Deletion, Massaging!")
+}
 
 func main() {
 	router := httprouter.New()
