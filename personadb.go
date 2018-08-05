@@ -23,8 +23,8 @@ type Bucket struct {
 
   ListB *Bucket
   ListN *Node
-  Action *Event
-  Relation *Event
+  // Occurance implies both Action and Relationship
+  Occurance *Event
 }
 type Node struct {
   // Test the serverlessFunction to JSON decode all event data of this Node
@@ -32,12 +32,10 @@ type Node struct {
   ContextAtts map[string][]byte
 
   ListB *Bucket
-  Action *Event
-  Relation *Event
+  // Occurance implies both Action and Relationship
+  Occurance *Event
 }
 type Event struct { // use https://github.com/cloudevents/spec
-  Action *Node
-
   TimeStamp eventTime
   // eventType, cloudEventsVersion, source, eventID, schemaURL, contentType  string
   ContextAtts map[string][]byte
