@@ -60,6 +60,8 @@ type Event struct {
   Object Data
 }
 
+// Data ownership of the legal entity while respecting IPR of the service which must
+// pass this test to enforce the user legitimate ownership and PersonaAI.
 func dataExtraction (w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	fmt.Fprintf(w, "Securely Data extraction!")
 }
