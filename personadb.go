@@ -1,4 +1,9 @@
-/* Copyright (c) 2017, 2018 KhaiPhong */
+/* 
+  Copyright (c) 2017, 2018 KhaiPhong
+  Om: a [kafka/db] for global registry, each legalEnty, and each publicTopic
+  OmHub: [kafka/db] publicTopics filtered by locality of the ThankYou Club 
+  MuHub: [kafka/db] globally filtered by legalEntity
+*/
 package main
 
 import (
@@ -17,29 +22,38 @@ func indexHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 }
 
 type Bucket struct {
-  // Test the serverlessFunction to JSON decode all event data of this Bucket
+  // Bucket <-> Bucket | Test the serverlessFunction to JSON decode all event data of this Bucket
   // label, tag, serverlessFunction  string
   ContextAtts map[string][]byte
 
   ListB *Bucket
-  ListN *Node
-  // Occurance implies both Action and Relationship
-  Occurance *Event
+  ListT *Topic
+  // legal permissions
+  Grant *Event
 }
-type Node struct {
+type Topic struct {
+  // Message <- Topic -> Event
   // Test the serverlessFunction to JSON decode all event data of this Node
   // label, tag, serverlessFunction  string
+  /*  
+    Topics: filtered by place, actionTopic, qualifier -> users, orgnizations, services
+    employ, employTeacher, enployNurse,
+    eat, eatChinese, eatItalian,
+    shop, shopGobal, shopCloth,
+   */
   ContextAtts map[string][]byte
 
+  // Producer publishes to a topic. Consumer pulls from a topic
   ListB *Bucket
-  // Occurance implies both Action and Relationship
+  ListM *Event
+  // Occurance implies both Action and Relationship.
   Occurance *Event
 }
-type Event struct { // use https://github.com/cloudevents/spec
-  TimeStamp eventTime
+type Event struct { 
+  // use https://github.com/cloudevents/spec
   // eventType, cloudEventsVersion, source, eventID, schemaURL, contentType  string
   ContextAtts map[string][]byte
-  // sourceNode, typeNode, targetNode, rdfSource, sourceSIC, targetSIC string
+  // location, actionTopic, qualifier, SIC string
   // label, tag, rating, value1, value2, serverlessFunction string -> the extensions
   Extensions map[string][]byte
 
