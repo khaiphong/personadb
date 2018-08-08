@@ -1,6 +1,6 @@
 /* 
   Copyright (c) 2017, 2018 KhaiPhong
-  Om: a [kafka/db] for global registry, each legalEnty, and each publicTopic
+  Om: a [kafka/db] for global registry, each legalEntity, and each publicTopic
   OmHub: [kafka/db] publicTopics filtered by locality of the ThankYou Club 
   MuHub: [kafka/db] globally filtered by legalEntity
 */
@@ -53,8 +53,8 @@ type Event struct {
   // use https://github.com/cloudevents/spec
   // eventType, cloudEventsVersion, source, eventID, schemaURL, contentType  string
   ContextAtts map[string][]byte
-  // location, actionTopic, qualifier, SIC string
-  // label, tag, rating, value1, value2, serverlessFunction string -> the extensions
+  // location, actionTopic, qualifier, SIC rating, serverlessFunction string. Initially, 
+  // we can use label and tag and put all events in 1 OmHub. Break it out later into topic.
   Extensions map[string][]byte
 
   Object Data
