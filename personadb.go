@@ -9,17 +9,14 @@ package main
 import (
 	"fmt"
 	"github.com/julienschmidt/httprouter"
-	"log"
 	"net/http"
-	"os"
+//	"log"
+//	"os"
+
 //      "context"
 //      "github.com/ethereum/go-ethereum/common"
 //      "github.com/ethereum/go-ethereum/ethclient"
 )
-
-func indexHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-	fmt.Fprintf(w, "This is the RESTful api")
-}
 
 type Bucket struct {
   // Bucket <-> Bucket | Test the serverlessFunction to JSON decode all event data of this Bucket
@@ -57,17 +54,21 @@ type Event struct {
   // we can use label and tag and put all events in 1 OmHub. Break it out later into topic.
   Extensions map[string][]byte
 
-  Object Data
+  //Object *Data
 }
 
 // Data ownership of the legal entity while respecting IPR of the service which must
 // pass this test to enforce the user legitimate ownership and PersonaAI.
-func dataExtraction (w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+func dataExtraction (w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Securely Data extraction!")
 }
 
-func composableEvent (w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+func composableEvent (w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Event Injection, Deletion, Massaging!")
+}
+
+func indexHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+	fmt.Fprintf(w, "This is the RESTful API")
 }
 
 func main() {
@@ -75,13 +76,14 @@ func main() {
 	router.GET("/", indexHandler)
 
 	// print env
-	env := os.Getenv("APP_ENV")
-	if env == "production" {
-		log.Println("Running api server in production mode")
-	} else {
-		log.Println("Running api server in dev mode")
-	}
+//	env := os.Getenv("APP_ENV")
+//	if env == "production" {
+//		log.Println("Running api server in production mode")
+//	} else {
+//		log.Println("Running api server in dev mode")
+//	}
 
 	http.ListenAndServe(":8080", router)
 }
+
 
