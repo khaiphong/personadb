@@ -7,11 +7,10 @@
 package main
 
 import (
-	"fmt"
-	"github.com/julienschmidt/httprouter"
-	"net/http"
-//	"log"
-//	"os"
+   "fmt"
+    "io/ioutil"
+    "net/http"
+    "os"
 
 //      "context"
 //      "github.com/ethereum/go-ethereum/common"
@@ -67,23 +66,30 @@ func composableEvent (w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Event Injection, Deletion, Massaging!")
 }
 
-func indexHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-	fmt.Fprintf(w, "This is the RESTful API")
+//func indexHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+//	fmt.Fprintf(w, "This is the RESTful API")
+//}
+
+func main() {
+    resp, err := http.Get("https://google.com")
+    // check(err)
+    body, err := ioutil.ReadAll(resp.Body)
+    check(err)
+    fmt.Println(len(body))
 }
 
+func check(err error) {
+    if err != nil {
+        fmt.Println(err)
+        os.Exit(1)
+    }
+}
+/*
 func main() {
 	router := httprouter.New()
 	router.GET("/", indexHandler)
-
-	// print env
-//	env := os.Getenv("APP_ENV")
-//	if env == "production" {
-//		log.Println("Running api server in production mode")
-//	} else {
-//		log.Println("Running api server in dev mode")
-//	}
-
+ 	// the server must keep open
 	http.ListenAndServe(":8080", router)
 }
-
+*/
 

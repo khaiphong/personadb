@@ -1,33 +1,31 @@
 # start an official go which installs golang and sets GOPATH
 FROM golang:1.10.2 AS build-env
-LABEL maintainer="duong.batien@khaiphong.io"
-
-ARG app_env
-ENV APP_ENV $app_env
+# copy the ca-certificates.crt from our machine into our container
+ADD ca-certificates.crt /etc/ssl/certs/
 
 COPY . /go/src/github.com/khaiphong/personadb
 # set working directory in container. All subsequent commands will run from this directory
 # which mimic src directory to manually do develeopment and use github for production.
 WORKDIR /go/src/github.com/khaiphong/personadb
 
+# get all dependencies and compile go program
 RUN go get .
-RUN go build
+RUN go build -o main . 
 
-# package the image in alpine for distribution
-# FROM alpine
-# COPY --from=build-env /go/src/github.com/khaiphong/personadb \
-#                      /go/src/github.com/khaiphong/personadb
-# RUN chown nobody:nogroup /go/src/github.com/khaiphong/personadb
-# USER nobody
+# the mount point for different containers in the same machine
+VOLUME /khaiphong/personadb
 
-CMD if [ ${APP_ENV} = production ]; \
-	then \
-	personadb; \
-	else \
-	go get github.com/pilu/fresh && \
-	fresh; \
-	fi
+# run personadb - a REST API - when the container launches
+CMD ["/go/src/github.com/khaiphong/personadb/main"]
 
 # Make port 8080 available to the world outside this container
 EXPOSE 8080
+
+# package the image in alpine for image built nd developed from personadb
+FROM alpine
+COPY --from=build-env /go/src/github.com/khaiphong/personadb \
+                      /go/src/github.com/khaiphong/personadb
+
+RUN chown nobody:nogroup /go/src/github.com/khaiphong/personadb
+USER nobody
 
