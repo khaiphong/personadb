@@ -62,6 +62,9 @@ func dataExtraction (w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Securely Data extraction!")
 }
 
+// A serverless function, as result of PersonaAI Normative-Positive Intelligence,
+// to change the course of the event processes coming from the interaction of streaming
+// and crytographic systems of the Om Central Nervous System
 func composableEvent (w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Event Injection, Deletion, Massaging!")
 }
