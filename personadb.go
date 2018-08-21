@@ -22,11 +22,11 @@ type Bucket struct {
   // label, tag, serverlessFunction  string
   ContextAtts map[string][]byte
 
-  ListB *Bucket
-  ListT *Topic
-  // legal permissions
-  Grant *Event
+  B [] Bucket
+  T [] Topic
+  P [] Event // legal permissions
 }
+// Registered topic _schema to dynamically change and update the Central Nervous System
 type Topic struct {
   // Message <- Topic -> Event
   // Test the serverlessFunction to JSON decode all event data of this Node
@@ -40,11 +40,11 @@ type Topic struct {
   ContextAtts map[string][]byte
 
   // Producer publishes to a topic. Consumer pulls from a topic
-  ListB *Bucket
-  ListM *Event
-  // Occurance implies both Action and Relationship.
-  Occurance *Event
+  B [] Bucket
+  T [] Topic
+  O [] Event // Occurance implies both Action and Relationship.
 }
+// use goroutines and channels for parallelism and concurrencies
 type Event struct { 
   // use https://github.com/cloudevents/spec
   // eventType, cloudEventsVersion, source, eventID, schemaURL, contentType  string
@@ -53,7 +53,7 @@ type Event struct {
   // we can use label and tag and put all events in 1 OmHub. Break it out later into topic.
   Extensions map[string][]byte
 
-  //Object *Data
+  Data map[string][]byte
 }
 
 // Data ownership of the legal entity while respecting IPR of the service which must
@@ -74,6 +74,11 @@ func composableEvent (w http.ResponseWriter, r *http.Request) {
 //}
 
 func main() {
+//    newBucket := make([] Bucket, 0, 1)
+//    newTopic := make([] Topic, 0, 1)
+//    newPermission := make([] Event, 0, 1)
+//    newOccurance := make([] Event, 0, 1)
+
     resp, err := http.Get("https://google.com")
     // check(err)
     body, err := ioutil.ReadAll(resp.Body)
@@ -87,6 +92,7 @@ func check(err error) {
         os.Exit(1)
     }
 }
+
 /*
 func main() {
 	router := httprouter.New()
