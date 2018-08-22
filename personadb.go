@@ -59,20 +59,28 @@ type Event struct {
   Data map[string][]byte
 }
 
-// Data ownership of the legal entity while respecting IPR of the service which must
-// pass this test to enforce the user legitimate ownership and PersonaAI.
-func dataExtraction (w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Securely Data extraction!")
+/*
+  User of can have their own data schema, but write/read PersonaDB using the database REST API
+  Data ownership of the legal entity while respecting IPR of the service which must
+  pass this test to enforce the user legitimate ownership and PersonaAI. The data is part
+  of the event owned by the service and its user of the public occurance.
+*/
+func (v *Event) dataExtraction() string {
+//   dmap := v.Data
+   data := "extract Event.Data to json"
+   return data
 }
-  /*
-    A serverless function fn, as result of PersonaAI Normative-Positive Intelligence, to
-    change the course of the event processes coming from the interaction of streaming and
-    crytographic systems of the Om Central Nervous System. The composableEvent takes the
-    passed (fn Event) to process.
-  */
-func composableEvent (w http.ResponseWriter, r *http.Request, fn Event) {
-    // process the passed fn Event
-	fmt.Fprintf(w, "Event Injection, Deletion, Massaging!")
+
+/*
+  A serverless function f, as result of PersonaAI Normative-Positive Intelligence, to
+  change the course of the event processes coming from the interaction of streaming and
+  crytographic systems of the Om Central Nervous System. The composableEvent takes the
+  passed (Event) to process.
+*/
+func (f *Event) composableEvent() Event {   
+    // process the event extension and inject an event to change its course of action
+    var e Event
+    return e
 }
 
 //func indexHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
