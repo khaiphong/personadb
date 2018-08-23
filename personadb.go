@@ -65,8 +65,8 @@ type Event struct {
   pass this test to enforce the user legitimate ownership and PersonaAI. The data is part
   of the event owned by the service and its user of the public occurance.
 */
-func (v *Event) dataExtraction() string {
-//   dmap := v.Data
+func (e *Event) dataExtraction() string {
+//   dmap := e.Data
    data := "extract Event.Data to json"
    return data
 }
