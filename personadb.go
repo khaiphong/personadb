@@ -65,8 +65,8 @@ type Event struct {
   pass this test to enforce the user legitimate ownership and PersonaAI. The data is part
   of the event owned by the service and its user of the public occurance.
 */
-func (e *Event) dataExtraction() string {
-//   dmap := e.Data
+func (p *Event) dataExtraction() string {
+//   dmap := p.Data
    data := "extract Event.Data to json"
    return data
 }
@@ -77,7 +77,7 @@ func (e *Event) dataExtraction() string {
   crytographic systems of the Om Central Nervous System. The composableEvent takes the
   passed (Event) to process.
 */
-func (f *Event) composableEvent() Event {   
+func (p *Event) composableEvent() Event {   
     // process the event extension and inject an event to change its course of action
     var e Event
     return e
