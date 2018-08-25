@@ -7,11 +7,12 @@
 package main
 
 import (
-   "fmt"
+    "fmt"
     "io/ioutil"
     "net/http"
     "os"
 
+//    "encoding/json"
 //      "context"
 //      "github.com/ethereum/go-ethereum/common"
 //      "github.com/ethereum/go-ethereum/ethclient"
@@ -60,10 +61,10 @@ type Event struct {
 }
 
 /*
-  User of can have their own data schema, but write/read PersonaDB using the database REST API
-  Data ownership of the legal entity while respecting IPR of the service which must
-  pass this test to enforce the user legitimate ownership and PersonaAI. The data is part
-  of the event owned by the service and its user of the public occurance.
+  Service can have its own data schema; the write/read PersonaDB use the database REST API.
+  Services being parts of Om Central Nervous System must pass this test to enforce the user
+  legitimate ownership for its PersonaAI. The data is part of the event owned by the service
+  and its user of the public occurance.
 */
 func (p *Event) dataExtraction() string {
 //   dmap := p.Data
