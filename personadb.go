@@ -3,6 +3,7 @@
   Om: a [kafka/db] for global registry, each legalEntity, and each publicTopic
   OmHub: [kafka/db] publicTopics filtered by locality of the ThankYou Club 
   MuHub: [kafka/db] globally filtered by legalEntity
+  Samadhi-Prajna in Machine Learning and Deep Learning from layered Neural Networks
 */
 package main
 
