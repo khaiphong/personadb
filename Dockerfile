@@ -21,10 +21,10 @@ CMD ["/go/src/github.com/khaiphong/personadb/main"]
 EXPOSE 8080
 
 # package the image in alpine for image built and serviced from personadb
-FROM alpine
-COPY --from=build-env /go/src/github.com/khaiphong/personadb \
-                      /go/src/github.com/khaiphong/personadb
+#FROM alpine
+#COPY --from=build-env /go/src/github.com/khaiphong/personadb \
+#                      /go/src/github.com/khaiphong/personadb
 
-RUN chown nobody:nogroup /go/src/github.com/khaiphong/personadb
-USER nobody
+#RUN chown nobody:nogroup /go/src/github.com/khaiphong/personadb
+#USER nobody
 

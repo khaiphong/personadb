@@ -4,16 +4,28 @@
   OmHub: [kafka/db] publicTopics filtered by locality of the ThankYou Club 
   MuHub: [kafka/db] globally filtered by legalEntity
   Samadhi-Prajna in Machine Learning and Deep Learning from layered Neural Networks
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License which can be copied at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
 */
+
+// https://www.codementor.io/codehakase/building-a-restful-api-with-golang-a6yivzqdo
 package main
 
 import (
-    "fmt"
-    "io/ioutil"
+    "encoding/json"
+    "log"
     "net/http"
-    "os"
+    "github.com/gorilla/mux"
 
-//    "encoding/json"
 //      "context"
 //      "github.com/ethereum/go-ethereum/common"
 //      "github.com/ethereum/go-ethereum/ethclient"
@@ -78,44 +90,82 @@ func (p *Event) dataExtraction() string {
   change the course of the event processes coming from the interaction of streaming and
   crytographic systems of the Om Central Nervous System. The composableEvent takes the
   passed (Event) to process.
+
+  For complex situation, look at interface HTTP (Event) Handler, taking struct *Request
+  (*Event) and use interface ResponseWriter (ComposeEvent) to dispatch to target places
+  with channels.
 */
-func (p *Event) composableEvent() Event {   
+func (p *Event) composeEvent() Event {   
     // process the event extension and inject an event to change its course of action
     var e Event
     return e
 }
 
-//func indexHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-//	fmt.Fprintf(w, "This is the RESTful API")
-//}
-
-func main() {
-    resp, err := http.Get("https://google.com")
-    // check(err)
-    body, err := ioutil.ReadAll(resp.Body)
-    check(err)
-    fmt.Println(len(body))
-}
-
-func check(err error) {
-    if err != nil {
-        fmt.Println(err)
-        os.Exit(1)
-    }
-}
-
 /*
-func main() {
-	router := httprouter.New()
-	router.GET("/", indexHandler)
- 	// the server must keep open
-	http.ListenAndServe(":8080", router)
-}
-
     newBucket := make([] Bucket, 0, 1)
     newTopic := make([] Topic, 0, 1)
     newPermission := make([] Event, 0, 1)
     newOccurance := make([] Event, 0, 1)
-
 */
+
+type Entity struct {
+    ID        string   `json:"id,omitempty"`
+    Firstname string   `json:"firstname,omitempty"`
+    Lastname  string   `json:"lastname,omitempty"`
+    Address   *Address `json:"address,omitempty"`
+}
+type Address struct {
+    City  string `json:"city,omitempty"`
+    State string `json:"state,omitempty"`
+}
+
+var entities []Entity
+
+func GetEntities(w http.ResponseWriter, r *http.Request) {
+    json.NewEncoder(w).Encode(entities)
+}
+
+func GetEntity(w http.ResponseWriter, r *http.Request) {
+    params := mux.Vars(r)
+    for _, item := range entities {
+        if item.ID == params["id"] {
+            json.NewEncoder(w).Encode(item)
+            return
+        }
+    }
+    json.NewEncoder(w).Encode(&Entity{})
+}
+
+func CreateEntity(w http.ResponseWriter, r *http.Request) {
+    params := mux.Vars(r)
+    var entity Entity
+    _ = json.NewDecoder(r.Body).Decode(&entity)
+    entity.ID = params["id"]
+    entities = append(entities, entity)
+    json.NewEncoder(w).Encode(entities)
+}
+
+func DeleteEntity(w http.ResponseWriter, r *http.Request) {
+    params := mux.Vars(r)
+    for index, item := range entities {
+        if item.ID == params["id"] {
+            entities = append(entities[:index], entities[index+1:]...)
+            break
+        }
+        json.NewEncoder(w).Encode(entities)
+    }
+}
+
+func main() {
+    entities = append(entities, Entity{ID: "1", Firstname: "John", Lastname: "Doe", Address: &Address{City: "City X", State: "State X"}})
+    entities = append(entities, Entity{ID: "2", Firstname: "Koko", Lastname: "Doe", Address: &Address{City: "City Z", State: "State Y"}})
+    entities = append(entities, Entity{ID: "3", Firstname: "Francis", Lastname: "Sunday"})
+
+    router := mux.NewRouter()
+    router.HandleFunc("/entities", GetEntities).Methods("GET")
+    router.HandleFunc("/entities/{id}", GetEntity).Methods("GET")
+    router.HandleFunc("/entities/{id}", CreateEntity).Methods("POST")
+    router.HandleFunc("/entities/{id}", DeleteEntity).Methods("DELETE")
+    log.Fatal(http.ListenAndServe(":8080", router))
+}
 
