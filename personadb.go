@@ -31,11 +31,11 @@ import (
 )
 
 /*
-  Om entity 0 holds all (1) entities, (2) baskets, (3) topics, (4) events, (5) git
+  Om entity id=0 holds all (1) entities, (2) baskets, (3) topics, (4) events, (5) git.
   Segregation of topics for faster searh. Legal entities: user, organization, service
-  Except "entities, buckets, topics, events", the first segment is always entitiId,
+  Except "entities, buckets, topics, events", the first segment is always entityId,
   the second bucketId, the third topicId, the fourth eventId or B-bucketId. These ids are
-  searched from local representations of Om entity0.
+  searched from local representations of Om Central Nervous System.
 */
 func GetDB(w http.ResponseWriter, r *http.Request) {}
 
