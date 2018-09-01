@@ -17,7 +17,6 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-// https://www.codementor.io/codehakase/building-a-restful-api-with-golang-a6yivzqdo
 package main
 
 import (
@@ -31,19 +30,72 @@ import (
 //      "github.com/ethereum/go-ethereum/ethclient"
 )
 
-type Bucket struct {
-  // Bucket <-> Bucket | Test the serverlessFunction to JSON decode all event data of this Bucket
-  // length of B, T, P, label, tag, serverlessFunction  string
-  ContextAtts map[string][]byte
-  B [] Bucket
-  T [] Topic
-  P [] Event // legal permissions
+// Om entity 0 holds all (1) entities, (2) baskets, (3) topics, (4) events, (5) git
+// Segregation of topics for faster searh. Legal entities: user, organization, service
+func GetDB(w http.ResponseWriter, r *http.Request) {}
+
+type Entity struct {
+    ID        string   `json:"id,omitempty"`
+    Firstname string   `json:"firstname,omitempty"`
+    Lastname  string   `json:"lastname,omitempty"`
+    Address   *Address `json:"address,omitempty"`
+}
+type Address struct {
+    City  string `json:"city,omitempty"`
+    State string `json:"state,omitempty"`
 }
 
+var entities []Entity
+func GetEntities(w http.ResponseWriter, r *http.Request) {
+    json.NewEncoder(w).Encode(entities)
+}
+func GetEntity(w http.ResponseWriter, r *http.Request) {
+    params := mux.Vars(r)
+    for _, item := range entities {
+        if item.ID == params["id"] {
+            json.NewEncoder(w).Encode(item)
+            return
+        }
+    }
+    json.NewEncoder(w).Encode(&Entity{})
+}
+func CreateEntity(w http.ResponseWriter, r *http.Request) { // for both Create and Update
+    params := mux.Vars(r)
+    var entity Entity
+    _ = json.NewDecoder(r.Body).Decode(&entity)
+    entity.ID = params["id"]
+    entities = append(entities, entity)
+    json.NewEncoder(w).Encode(entities)
+}
+func DeleteEntity(w http.ResponseWriter, r *http.Request) {
+    params := mux.Vars(r)
+    for index, item := range entities {
+        if item.ID == params["id"] {
+            entities = append(entities[:index], entities[index+1:]...)
+            break
+        }
+        json.NewEncoder(w).Encode(entities)
+    }
+}
+
+/*
+    newBucket := make([] Bucket, 0, 1)
+    newTopic := make([] Topic, 0, 1)
+    newPermission := make([] Event, 0, 1)
+    newOccurance := make([] Event, 0, 1)
+*/
+
+type Bucket struct {
+  // Bucket <-> Bucket | Test the serverlessFunction to JSON decode all event data of this Bucket
+  // length of B, T, P, label, tag, serverlessFunction  string | bucket must be in entity
+  ContextAtts map[string][]byte
+  T [] Topic
+  A [] Event // an act of legal permissions
+}
 // Registered topic _schema to dynamically change and update the Central Nervous System
 type Topic struct {
   /*
-    Message <- Topic -> Event
+    Message <- Topic -> Event | topic must be in a bucket
     Test the serverlessFunction to JSON decode all event data of this Node
     length of B, T, O, label, tag, serverlessFunction  string
     Producer publishes to a topic and emit a message. Consumer pulls from a topic
@@ -55,10 +107,8 @@ type Topic struct {
    */
   ContextAtts map[string][]byte
   B [] Bucket
-  T [] Topic
   O [] Event // Occurance implies both Action and Relationship.
 }
-
 // use goroutines and channels for parallelism and concurrencies
 type Event struct { 
   /* 
@@ -86,7 +136,7 @@ func (p *Event) dataExtraction() string {
 }
 
 /*
-  A serverless function f, as result of PersonaAI Normative-Positive Intelligence, to
+  A serverless function as result of PersonaAI Normative-Positive Intelligence, to
   change the course of the event processes coming from the interaction of streaming and
   crytographic systems of the Om Central Nervous System. The composableEvent takes the
   passed (Event) to process.
@@ -101,60 +151,34 @@ func (p *Event) composeEvent() Event {
     return e
 }
 
-/*
-    newBucket := make([] Bucket, 0, 1)
-    newTopic := make([] Topic, 0, 1)
-    newPermission := make([] Event, 0, 1)
-    newOccurance := make([] Event, 0, 1)
-*/
+var buckets []Bucket
+func GetEntityBuckets(w http.ResponseWriter, r *http.Request) {}
+func GetEntityBucket(w http.ResponseWriter, r *http.Request) {}
+func CreateEntityBucket(w http.ResponseWriter, r *http.Request) {}
+func DeleteEntityBucket(w http.ResponseWriter, r *http.Request) {}
 
-type Entity struct {
-    ID        string   `json:"id,omitempty"`
-    Firstname string   `json:"firstname,omitempty"`
-    Lastname  string   `json:"lastname,omitempty"`
-    Address   *Address `json:"address,omitempty"`
-}
-type Address struct {
-    City  string `json:"city,omitempty"`
-    State string `json:"state,omitempty"`
-}
+var topics []Topic
+func GetBucketTopics(w http.ResponseWriter, r *http.Request) {}
+func GetBucketTopic(w http.ResponseWriter, r *http.Request) {}
+func CreateBucketTopic(w http.ResponseWriter, r *http.Request) {}
+func DeleteBucketTopic(w http.ResponseWriter, r *http.Request) {}
 
-var entities []Entity
+var events []Event
+func GetBucketEvents(w http.ResponseWriter, r *http.Request) {}
+func GetBucketEvent(w http.ResponseWriter, r *http.Request) {}
+func CreateBucketEvent(w http.ResponseWriter, r *http.Request) {}
+func DeleteBucketEvent(w http.ResponseWriter, r *http.Request) {}
 
-func GetEntities(w http.ResponseWriter, r *http.Request) {
-    json.NewEncoder(w).Encode(entities)
-}
+func GetTopicBuckets(w http.ResponseWriter, r *http.Request) {}
+func GetTopicBucket(w http.ResponseWriter, r *http.Request) {}
+func CreateTopicBucket(w http.ResponseWriter, r *http.Request) {}
+func DeleteTopicBucket(w http.ResponseWriter, r *http.Request) {}
 
-func GetEntity(w http.ResponseWriter, r *http.Request) {
-    params := mux.Vars(r)
-    for _, item := range entities {
-        if item.ID == params["id"] {
-            json.NewEncoder(w).Encode(item)
-            return
-        }
-    }
-    json.NewEncoder(w).Encode(&Entity{})
-}
+func GetTopicEvents(w http.ResponseWriter, r *http.Request) {}
+func GetTopicEvent(w http.ResponseWriter, r *http.Request) {}
+func CreateTopicEvent(w http.ResponseWriter, r *http.Request) {}
+func DeleteTopicEvent(w http.ResponseWriter, r *http.Request) {}
 
-func CreateEntity(w http.ResponseWriter, r *http.Request) {
-    params := mux.Vars(r)
-    var entity Entity
-    _ = json.NewDecoder(r.Body).Decode(&entity)
-    entity.ID = params["id"]
-    entities = append(entities, entity)
-    json.NewEncoder(w).Encode(entities)
-}
-
-func DeleteEntity(w http.ResponseWriter, r *http.Request) {
-    params := mux.Vars(r)
-    for index, item := range entities {
-        if item.ID == params["id"] {
-            entities = append(entities[:index], entities[index+1:]...)
-            break
-        }
-        json.NewEncoder(w).Encode(entities)
-    }
-}
 
 func main() {
     entities = append(entities, Entity{ID: "1", Firstname: "John", Lastname: "Doe", Address: &Address{City: "City X", State: "State X"}})
@@ -162,10 +186,39 @@ func main() {
     entities = append(entities, Entity{ID: "3", Firstname: "Francis", Lastname: "Sunday"})
 
     router := mux.NewRouter()
+    router.HandleFunc("/", GetDB).Methods("GET")
+
     router.HandleFunc("/entities", GetEntities).Methods("GET")
-    router.HandleFunc("/entities/{id}", GetEntity).Methods("GET")
-    router.HandleFunc("/entities/{id}", CreateEntity).Methods("POST")
-    router.HandleFunc("/entities/{id}", DeleteEntity).Methods("DELETE")
+    router.HandleFunc("/{entityId}", GetEntity).Methods("GET")
+    router.HandleFunc("/{entityId}", CreateEntity).Methods("POST")
+    router.HandleFunc("/{entityId}", DeleteEntity).Methods("DELETE")
+
+    router.HandleFunc("/{entityId}/buckets", GetEntityBuckets).Methods("GET")
+    router.HandleFunc("/{entityId}/{bucketId}", GetEntityBucket).Methods("GET")
+    router.HandleFunc("/{entityId}/{bucketId}", CreateEntityBucket).Methods("POST")
+    router.HandleFunc("/{entityId}/{bucketId}", DeleteEntityBucket).Methods("DELETE")
+
+    router.HandleFunc("/{entityId}/{bucketId}/topics", GetBucketTopics).Methods("GET")
+    router.HandleFunc("/{entityId}/{bucketId}/{topicId}", GetBucketTopic).Methods("GET")
+    router.HandleFunc("/{entityId}/{bucketId}/{topicId}", CreateBucketTopic).Methods("POST")
+    router.HandleFunc("/{entityId}/{bucketId}/{topicId}", DeleteBucketTopic).Methods("DELETE")
+
+    router.HandleFunc("/{entityId}/{bucketId}/events", GetBucketEvents).Methods("GET")
+    router.HandleFunc("/{entityId}/{bucketId}/{eventId}", GetBucketEvent).Methods("GET")
+    router.HandleFunc("/{entityId}/{bucketId}/{eventId}", CreateBucketEvent).Methods("POST")
+    router.HandleFunc("/{entityId}/{bucketId}/{eventId}", DeleteBucketEvent).Methods("DELETE")
+
+    router.HandleFunc("/{entityId}/{bucketId}/{topicId}/buckets", GetTopicBuckets).Methods("GET")
+    router.HandleFunc("/{entityId}/{bucketId}/{topicId}/{bucketId}", GetTopicBucket).Methods("GET")
+    router.HandleFunc("/{entityId}/{bucketId}/{topicId}/{bucketId}", CreateTopicBucket).Methods("POST")
+    router.HandleFunc("/{entityId}/{bucketId}/{topicId}/{bucketId}", DeleteTopicBucket).Methods("DELETE")
+
+    router.HandleFunc("/{entityId}/{bucketId}/{topicId}/events", GetTopicEvents).Methods("GET")
+    router.HandleFunc("/{entityId}/{bucketId}/{topicId}/{eventId}", GetTopicEvent).Methods("GET")
+    router.HandleFunc("/{entityId}/{bucketId}/{topicId}/{eventId}", CreateTopicEvent).Methods("POST")
+    router.HandleFunc("/{entityId}/{bucketId}/{topicId}/{eventId}", DeleteTopicEvent).Methods("DELETE")
+
+
     log.Fatal(http.ListenAndServe(":8080", router))
 }
-
+// Available routers: "/git", "/prometheus", "/events"
