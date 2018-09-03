@@ -25,6 +25,7 @@ import (
     "net/http"
     "github.com/gorilla/mux"
 
+//    "./storage"
 //      "context"
 //      "github.com/ethereum/go-ethereum/common"
 //      "github.com/ethereum/go-ethereum/ethclient"
@@ -114,10 +115,12 @@ type Topic struct {
 type Event struct { 
   /* 
     use goroutines and channels for parallelism and concurrencies.
-    eventType, cloudEventsVersion, source, eventID, schemaURL, contentType  string
-    use "composableEvent" as serverless function in Extensions map
-    location, actionTopic, qualifier, SIC rating, composableEvent string. 
-    We can use label and tag and put all events in 1 OmHub. Break it later into topics.
+    In ContextAtts: eventType, eventOwners, eventSource, eventID, schemaURL, contentType string
+      public bool
+    In Extensions map, use "composableEvent" as serverless function
+      location, actionTopic, qualifier, SIC rating, composableEvent string. 
+    We can use label and tag and put all events in 1 OmHub. Break it later into topics/markets.
+    Enable producers create registered topics. Detention policy 90 days.
   */
   ContextAtts map[string][]byte
   Extensions map[string][]byte

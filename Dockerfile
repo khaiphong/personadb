@@ -1,5 +1,5 @@
 # start an official go which installs golang and sets GOPATH
-FROM golang:1.10.3 AS build-env
+FROM golang:1.11 AS build-env
 # copy the ca-certificates.crt from our machine into our container
 ADD ca-certificates.crt /etc/ssl/certs/
 
