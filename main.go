@@ -25,11 +25,55 @@ import (
 //    "net/http"
     "github.com/gorilla/mux"
 
-    "github.com/personadb/storage"
+    "github.com/khaiphong/personadb/storage"
 //      "context"
 //      "github.com/ethereum/go-ethereum/common"
 //      "github.com/ethereum/go-ethereum/ethclient"
 )
+
+type Entity struct {
+    ID        string   `json:"id,omitempty"`
+    Firstname string   `json:"firstname,omitempty"`
+    Lastname  string   `json:"lastname,omitempty"`
+    Address   *Address `json:"address,omitempty"`
+}
+type Address struct {
+    City  string `json:"city,omitempty"`
+    State string `json:"state,omitempty"`
+}
+
+var entities []Entity
+func GetEntities(w http.ResponseWriter, r *http.Request) {
+    json.NewEncoder(w).Encode(entities)
+}
+func GetEntity(w http.ResponseWriter, r *http.Request) {
+    params := mux.Vars(r)
+    for _, item := range entities {
+        if item.ID == params["id"] {
+            json.NewEncoder(w).Encode(item)
+            return
+        }
+    }
+    json.NewEncoder(w).Encode(&Entity{})
+}
+func CreateEntity(w http.ResponseWriter, r *http.Request) { // for both Create and Update
+    params := mux.Vars(r)
+    var entity Entity
+    _ = json.NewDecoder(r.Body).Decode(&entity)
+    entity.ID = params["id"]
+    entities = append(entities, entity)
+    json.NewEncoder(w).Encode(entities)
+}
+func DeleteEntity(w http.ResponseWriter, r *http.Request) {
+    params := mux.Vars(r)
+    for index, item := range entities {
+        if item.ID == params["id"] {
+            entities = append(entities[:index], entities[index+1:]...)
+            break
+        }
+        json.NewEncoder(w).Encode(entities)
+    }
+}
 
 
 
