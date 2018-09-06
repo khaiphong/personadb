@@ -8,8 +8,8 @@ COPY . /go/src/github.com/khaiphong/personadb
 WORKDIR /go/src/github.com/khaiphong/personadb
 
 # get all dependencies and compile go program
-RUN go get .
-RUN go build -o main . 
+RUN go get -d -v ./...
+RUN go build -o main ./...
 
 # the mount point for different containers in the same machine
 VOLUME /khaiphong/personadb
@@ -21,7 +21,7 @@ CMD ["/go/src/github.com/khaiphong/personadb/main"]
 EXPOSE 8080
 
 # package the image in alpine for image built and serviced from personadb
-#FROM alpine
+#FROM 1.11.0-alpine
 #COPY --from=build-env /go/src/github.com/khaiphong/personadb \
 #                      /go/src/github.com/khaiphong/personadb
 
