@@ -20,16 +20,24 @@ limitations under the License.
 package main
 
 import (
-//    "encoding/json"
+    "encoding/json"
     "log"
-//    "net/http"
+    "net/http"
     "github.com/gorilla/mux"
 
-    "github.com/khaiphong/personadb/storage"
 //      "context"
 //      "github.com/ethereum/go-ethereum/common"
 //      "github.com/ethereum/go-ethereum/ethclient"
 )
+
+/*
+  Om entity id=0 holds all (1) entities, (2) baskets, (3) topics, (4) events, (5) git.
+  Segregation of topics for faster searh. Legal entities: user, organization, service
+  Except "entities, buckets, topics, events", the first segment is always entityId,
+  the second bucketId, the third topicId, the fourth eventId or B-bucketId. These ids are
+  searched from local representations of Om Central Nervous System.
+*/
+func GetDB(w http.ResponseWriter, r *http.Request) {}
 
 type Entity struct {
     ID        string   `json:"id,omitempty"`
@@ -75,6 +83,105 @@ func DeleteEntity(w http.ResponseWriter, r *http.Request) {
     }
 }
 
+/*
+    newBucket := make([] Bucket, 0, 1)
+    newTopic := make([] Topic, 0, 1)
+    newPermission := make([] Event, 0, 1)
+    newOccurance := make([] Event, 0, 1)
+*/
+
+type Bucket struct {
+  ContextAtts map[string][]byte
+  T [] Topic
+  A [] Event // an act of permissions controlled by the owner
+}
+type Topic struct {
+  /*
+    Registered topic _schema to dynamically change and update the Central Nervous System.
+    label, tag, serverlessFunction  string | Topic must be in a bucket.
+    Producer publishes to a topic and emit a message. Consumer pulls from a topic
+
+    Topics: filtered by place, action, qualifier -> users, orgnizations, services
+    employ, teacher, nurse,
+    eat, Chinese, Italian,
+    shop, gobal, cloth,
+    meet, A at TY-AB, xy meeting Calgary,
+   */
+  ContextAtts map[string][]byte
+  O [] Event // Occurance implies both Action and Relationship.
+  B [] Bucket
+}
+type Event struct { 
+  /* 
+    use goroutines and channels for parallelism and concurrencies.
+    In ContextAtts: eventType, eventOwners, eventSource, eventID, schemaURL, contentType string
+      public bool
+    In Extensions map, use "composableEvent" as serverless function
+      location, actionTopic, qualifier, SIC rating, composableEvent string. 
+    We can use label and tag and put all events in 1 OmHub. Break it later into topics/markets.
+    Enable producers create registered topics. Detention policy 90 days.
+  */
+  ContextAtts map[string][]byte
+  Extensions map[string][]byte
+  Data map[string][]byte
+}
+
+/*
+  Service has its own data schema; the write/read PersonaDB use the database REST API.
+  The data is part of the event owned by the service and its user in Settlement layer.
+
+  Entity creates its own tree of buckets, topics, events. Events are in its own database 
+  and in the Om for extracting data to the other owner(s), recorded in the Settlement.
+*/
+func (p *Event) dataExtraction() string {
+//   dmap := p.Data
+   data := "extract Event.Data to json"
+   return data
+}
+
+/*
+  Serverless function as result of PersonaAI Normative-Positive Intelligence, to change
+  the course of the event processes coming from the interaction of streaming and crytographic
+  systems of the Om Central Nervous System.
+
+  For complex situation, look at interface HTTP (Event) Handler, taking struct *Request
+  (*Event) and use interface ResponseWriter (ComposeEvent) to dispatch to target places
+  with channels.
+*/
+func (p *Event) composeEvent() Event {   
+    // process the event extension and inject an event to change its course of action
+    var e Event
+    return e
+}
+
+var buckets []Bucket
+func GetEntityBuckets(w http.ResponseWriter, r *http.Request) {}
+func GetEntityBucket(w http.ResponseWriter, r *http.Request) {}
+func CreateEntityBucket(w http.ResponseWriter, r *http.Request) {}
+func DeleteEntityBucket(w http.ResponseWriter, r *http.Request) {}
+
+var topics []Topic
+func GetBucketTopics(w http.ResponseWriter, r *http.Request) {}
+func GetBucketTopic(w http.ResponseWriter, r *http.Request) {}
+func CreateBucketTopic(w http.ResponseWriter, r *http.Request) {}
+func DeleteBucketTopic(w http.ResponseWriter, r *http.Request) {}
+
+var events []Event
+func GetBucketEvents(w http.ResponseWriter, r *http.Request) {}
+func GetBucketEvent(w http.ResponseWriter, r *http.Request) {}
+func CreateBucketEvent(w http.ResponseWriter, r *http.Request) {}
+func DeleteBucketEvent(w http.ResponseWriter, r *http.Request) {}
+
+func GetTopicEvents(w http.ResponseWriter, r *http.Request) {}
+func GetTopicEvent(w http.ResponseWriter, r *http.Request) {}
+func CreateTopicEvent(w http.ResponseWriter, r *http.Request) {}
+func DeleteTopicEvent(w http.ResponseWriter, r *http.Request) {}
+
+// in later version
+func GetTopicBuckets(w http.ResponseWriter, r *http.Request) {}
+func GetTopicBucket(w http.ResponseWriter, r *http.Request) {}
+func CreateTopicBucket(w http.ResponseWriter, r *http.Request) {}
+func DeleteTopicBucket(w http.ResponseWriter, r *http.Request) {}
 
 
 func main() {
