@@ -4,18 +4,17 @@ FROM golang:1.11 AS build-env
 ADD ca-certificates.crt /etc/ssl/certs/
 
 COPY . /go/src/github.com/khaiphong/personadb
-# set working directory in container, mimic src directory github for production.
 WORKDIR /go/src/github.com/khaiphong/personadb
 
 # get all dependencies and compile go program
 RUN go get -d -v ./...
-RUN go build -o main ./...
+Run go install -v ./...
 
 # the mount point for different containers in the same machine
 VOLUME /khaiphong/personadb
 
 # run personadb - a REST API - when the container launches
-CMD ["/go/src/github.com/khaiphong/personadb/main"]
+ENTRYPOINT ["/go/src/github.com/khaiphong/personadb/main"]
 
 # Make port 8080 available to the world outside this container
 EXPOSE 8080
