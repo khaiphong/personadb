@@ -15,6 +15,8 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
+
+An example of REST API web app using PersonaDB
 */
 
 package main
@@ -24,6 +26,7 @@ import (
     "log"
     "net/http"
     "github.com/gorilla/mux"
+//  "github.com/khaiphong/personadb/persona"
 
 //      "context"
 //      "github.com/ethereum/go-ethereum/common"
