@@ -8,7 +8,6 @@ WORKDIR /go/src/github.com/khaiphong/personadb
 
 # get all dependencies and compile go program
 RUN go get -d -v ./...
-# Run go install -v ./...
 RUN go build -o main .
 
 # the mount point for different containers in the same machine
@@ -17,8 +16,8 @@ VOLUME /khaiphong/personadb
 # run personadb - a REST API - when the container launches
 CMD ["/go/src/github.com/khaiphong/personadb/main"]
 
-# Make port 8080 available to the world outside this container
-EXPOSE 8080
+# Make port 8081 available to the world outside this container
+EXPOSE 8081
 
 # package the image in alpine for image built and serviced from personadb
 #FROM 1.11.0-alpine

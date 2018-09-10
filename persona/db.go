@@ -20,7 +20,9 @@ google/leveldb - officialimplementation written in C++
 syndtr/goleveldb - complete and stable Go implementation
 golang/leveldb - official but incomplete Go implementation
 https://github.com/prometheus/tsdb - a repository contains the Prometheus storage layer that is used in its 2.x releases. Put this repository as prometheus (together with mu, git, event under entity based-on leveldb) topic of personadb which has a bucket of topics using event as a permission from bucket or occurence from topic. Each entity has its own offsite db and online storage. Om buckets: entities, topics, settlements, hubs
-
+https://github.com/dgraph-io/badger
+https://www.youtube.com/watch?v=cHXbYLNa0qQ - Dgraph distributed db
+https://www.youtube.com/watch?v=E8-e-3fRHBw - Managing Data in Microservices, applying AI.
 */
 
 package personadb
