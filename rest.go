@@ -91,6 +91,8 @@ func DeleteEntity(w http.ResponseWriter, r *http.Request) {
     newTopic := make([] Topic, 0, 1)
     newPermission := make([] Event, 0, 1)
     newOccurance := make([] Event, 0, 1)
+  A node (bucket, topic) to a node via an edge relationship event contain both dataExtraction for
+  for legitimate owner PersonaAI and composeEvent for future composeable events.
 */
 
 type Bucket struct {
@@ -101,14 +103,15 @@ type Bucket struct {
 type Topic struct {
   /*
     Registered topic _schema to dynamically change and update the Central Nervous System.
-    label, tag, serverlessFunction  string | Topic must be in a bucket.
+    Topic, IoT must be in a bucket.
     Producer publishes to a topic and emit a message. Consumer pulls from a topic
 
-    Topics: filtered by place, action, qualifier -> users, orgnizations, services
-    employ, teacher, nurse,
-    eat, Chinese, Italian,
-    shop, gobal, cloth,
-    meet, A at TY-AB, xy meeting Calgary,
+    Topics: filtered by place, action, qualifier -> users, orgnizations, services driving force
+      suggest and let user add name of node and event
+    hire, hire_teacher, hire_nurse, @reverse
+    eat, eat_chinese_food, eat_italian_food, @reverse
+    shop, shop_gobal, shop_cloth,
+    meet, meet_andy_TY-AB, meet_startup_calgary, @reverse
    */
   ContextAtts map[string][]byte
   O [] Event // Occurance implies both Action and Relationship.
@@ -118,6 +121,7 @@ type Event struct {
   /* 
     use goroutines and channels for parallelism and concurrencies.
     In ContextAtts: eventType, eventOwners, eventSource, eventID, schemaURL, contentType string
+      label, tag, serverlessFunction  string | dataOwners, composeEvents [] string
       public bool
     In Extensions map, use "composableEvent" as serverless function
       location, actionTopic, qualifier, SIC rating, composableEvent string. 
