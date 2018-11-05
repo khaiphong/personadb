@@ -139,14 +139,10 @@ type Event struct {
 
   Entity creates its own tree of buckets, topics, events. Events are in its own database 
   and in the Om for extracting data to the other owner(s), recorded in the Settlement.
-*/
-func (p *Event) dataExtraction() string {
-//   dmap := p.Data
-   data := "extract Event.Data to json"
-   return data
-}
+  The Lamda statement to test data ownership then write data extraction plus
+  possible composeEvent to appropriate databases. Thus all service data must implement
+  dataExtration to json and/or composeEvent
 
-/*
   Serverless function as result of PersonaAI Normative-Positive Intelligence, to change
   the course of the event processes coming from the interaction of streaming and crytographic
   systems of the Om Central Nervous System.
@@ -155,10 +151,16 @@ func (p *Event) dataExtraction() string {
   (*Event) and use interface ResponseWriter (ComposeEvent) to dispatch to target places
   with channels.
 */
-func (p *Event) composeEvent() Event {   
-    // process the event extension and inject an event to change its course of action
+func dataExtraction(e Event) (string, bool) {
+   // test if data owner has PersonaAI subscription. If yes
+   data := "extract Event.Data to json"
+   return data, true
+}
+
+func composeEvent(e Event) (Event, bool) {
+   // process the event extension and inject an event to change its course of action
     var e Event
-    return e
+    return e, true
 }
 
 var buckets []Bucket
