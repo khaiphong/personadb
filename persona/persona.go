@@ -210,7 +210,7 @@ func DecodeAi(data []byte) (Ai, error) {
 */
 
 // the call function build up and provide [] byte key and value
-func SetItem ([]byte key, []byte value) {
+func SetItem (key []byte, value []byte) {
    // assuming badger ia at /app/data directory
    kv, err := badger.Open("/app/data")
    if err != nil {
@@ -223,8 +223,8 @@ func SetItem ([]byte key, []byte value) {
    }
 
 }
-// the call function build up and provide [] byte key and value
-func GetItem ([]byte key) {
+// the call function build up and provide []byte key and value
+func GetItem (key []byte) {
 
    var item badger.KVItem
    err = kv.Get([]byte(key), &item)
