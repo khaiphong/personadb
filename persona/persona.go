@@ -9,6 +9,10 @@
   Unless required by applicable law or agreed to in writing, software
   distributed under the License is distributed on an "AS IS" BASIS,
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+
+https://github.com/prometheus/tsdb - implement Prometheus
+https://www.youtube.com/watch?v=cHXbYLNa0qQ - Dgraph distributed db
+https://www.youtube.com/watch?v=E8-e-3fRHBw - Managing Data in Microservices, applying AI.
 */
 
 package persona
@@ -19,8 +23,8 @@ import (
 )
 
 type Persona struct {
-   Name string
-   Age  int
+   LegalId, Password, PhaseForPassword, FirstName, LastName, Salute, KnownAs, Phone, Cell, Email, BirthDate, HomeCommunity, CurrentCommunity, AboutMe, BusinessCard, TokenId, CreatedTime, UpdatedTime, Locales, KeyWords, LastAccessTime  string
+   Photo, VoiceForRecognition []byte
 }
 func (p Persona) EncodePersona() []byte {
    data, err := json.Marshall(p)
@@ -35,6 +39,60 @@ func DecodePersona(data []byte) (Persona, error) {
    err := json.Unmarshal(data, &p)
    return p, err
 }
+
+// the call function build up and provide [] byte key and value
+func SetItem (key, value []byte) {
+   // assuming badger ia at /app/data directory
+   kv, err := badger.Open("/app/data")
+   if err != nil {
+      panic(err)
+   }
+
+   err = kv.Set(key, value)
+   if err != nil {
+      panic(err)
+   }
+
+}
+// the call function build up and provide []byte key and value
+func GetItem (key []byte) {
+
+   var item badger.KVItem
+   err = kv.Get([]byte(key), &item)
+   if err != nil {
+      panic(err)
+   }
+
+   item, err := decodePersona(item.Value())
+   if err != nil {
+      panic(err)
+   }
+
+   fmt.Println(String(item.Value()))
+}
+
+type Event struct { 
+  /* 
+    use goroutines and channels for parallelism and concurrencies.
+    In ContextAtts: eventType, eventOwners, eventSource, eventID, schemaURL, contentType string
+      label, tag, serverlessFunction  string | dataOwners, composeEvents [] string
+      public bool
+    In Extensions map, use "composableEvent" as serverless function
+      location, actionTopic, qualifier, SIC rating, composableEvent string. 
+    We can use label and tag and put all events in 1 OmHub. Break it later into topics/markets.
+    Enable producers create registered topics. Detention policy 90 days.
+  */
+  ContextAtts map[string], Extensions map[string], Data map[string] []byte
+}
+
+type EventPro interface {
+   Evp() Event
+}
+func (e *Event) Evp() Event {
+   // processing the event and return another event
+}
+
+
 
 /*
 type Eip struct {
@@ -208,35 +266,4 @@ func DecodeAi(data []byte) (Ai, error) {
 }
 
 */
-
-// the call function build up and provide [] byte key and value
-func SetItem (key []byte, value []byte) {
-   // assuming badger ia at /app/data directory
-   kv, err := badger.Open("/app/data")
-   if err != nil {
-      panic(err)
-   }
-
-   err = kv.Set(key, value)
-   if err != nil {
-      panic(err)
-   }
-
-}
-// the call function build up and provide []byte key and value
-func GetItem (key []byte) {
-
-   var item badger.KVItem
-   err = kv.Get([]byte(key), &item)
-   if err != nil {
-      panic(err)
-   }
-
-   item, err := decodePersona(item.Value())
-   if err != nil {
-      panic(err)
-   }
-
-   fmt.Println(String(item.Value()))
- }
 
