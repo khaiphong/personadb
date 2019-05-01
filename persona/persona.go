@@ -24,7 +24,7 @@ import (
 
 type Persona struct {
    LegalId, Password, PhaseForPassword, FirstName, LastName, Salute, KnownAs, Phone, Cell, Email, BirthDate, HomeCommunity, CurrentCommunity, AboutMe, BusinessCard, TokenId, CreatedTime, UpdatedTime, Locales, KeyWords, LastAccessTime  string
-   Photo, VoiceForRecognition []byte
+   Photo, VoiceForRecognition, FingerPrints []byte
 }
 func (p Persona) EncodePersona() []byte {
    data, err := json.Marshall(p)
