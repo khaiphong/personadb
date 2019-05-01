@@ -26,6 +26,8 @@ type Persona struct {
    LegalId, Password, PhaseForPassword, FirstName, LastName, Salute, KnownAs, Phone, Cell, Email, BirthDate, HomeCommunity, CurrentCommunity, AboutMe, BusinessCard, TokenId, CreatedTime, UpdatedTime, Locales, KeyWords, LastAccessTime  string
    Photo, VoiceForRecognition, FingerPrints []byte
 }
+
+// use value receiver for encoding and decoding json
 func (p Persona) EncodePersona() []byte {
    data, err := json.Marshall(p)
    if err != nil {
@@ -40,21 +42,8 @@ func DecodePersona(data []byte) (Persona, error) {
    return p, err
 }
 
-// the call function build up and provide [] byte key and value
-func SetItem (key, value []byte) {
-   // assuming badger ia at /app/data directory
-   kv, err := badger.Open("/app/data")
-   if err != nil {
-      panic(err)
-   }
-
-   err = kv.Set(key, value)
-   if err != nil {
-      panic(err)
-   }
-
-}
-// the call function build up and provide []byte key and value
+// To update item we GetItem, change it through pointer and SetItem
+// We build up and provide key, value []byte 
 func GetItem (key []byte) {
 
    var item badger.KVItem
@@ -69,6 +58,19 @@ func GetItem (key []byte) {
    }
 
    fmt.Println(String(item.Value()))
+}
+func SetItem (key, value []byte) {
+   // assuming badger ia at /app/data directory
+   kv, err := badger.Open("/app/data")
+   if err != nil {
+      panic(err)
+   }
+
+   err = kv.Set(key, value)
+   if err != nil {
+      panic(err)
+   }
+
 }
 
 type Event struct { 
