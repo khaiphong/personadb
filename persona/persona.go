@@ -76,13 +76,14 @@ func SetItem (key, value []byte) {
 type Event struct { 
   /* 
     use goroutines and channels for parallelism and concurrencies.
-    In ContextAtts: eventType, eventOwners, eventSource, eventID, schemaURL, contentType string
-      label, tag, serverlessFunction  string | dataOwners, composeEvents [] string
+    ContextAtts: eventType, eventOwners, eventSource, eventID, schemaURL, contentType string
+      label, tag, serverlessFunction  string
+      dataOwners, composeEvents []string
       public bool
-    In Extensions map, use "composableEvent" as serverless function
-      location, actionTopic, qualifier, SIC rating, composableEvent string. 
-    We can use label and tag and put all events in 1 OmHub. Break it later into topics/markets.
-    Enable producers create registered topics. Detention policy 90 days.
+    Extensions map, use "composableEvent" as serverless function
+      location, actionTopic, qualifier, SIC rating, composableEvent string.
+
+    We can use label and tag and put all events in 1 OmHub. Break it later into topics/markets. Enable producers create registered topics. Detention policy 90 days.
   */
   ContextAtts map[string], Extensions map[string], Data map[string] []byte
 }
@@ -96,7 +97,6 @@ func (e *Event) Evp() Event {
 
 
 
-/*
 type Eip struct {
 
 }
@@ -267,5 +267,5 @@ func DecodeAi(data []byte) (Ai, error) {
    return a, err
 }
 
-*/
+
 
