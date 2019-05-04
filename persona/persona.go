@@ -10,6 +10,7 @@
   distributed under the License is distributed on an "AS IS" BASIS,
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 
+https://www.youtube.com/watch?v=szOZ3p-5YIc block chain with badger
 https://github.com/prometheus/tsdb - implement Prometheus
 https://www.youtube.com/watch?v=cHXbYLNa0qQ - Dgraph distributed db
 https://www.youtube.com/watch?v=E8-e-3fRHBw - Managing Data in Microservices, applying AI.
@@ -18,7 +19,6 @@ https://www.youtube.com/watch?v=E8-e-3fRHBw - Managing Data in Microservices, ap
 package persona
 
 import (
-   "encoding/json"
    "fmt"
 )
 
@@ -26,23 +26,15 @@ type Persona struct {
    LegalId, Password, PhaseForPassword, FirstName, LastName, Salute, KnownAs, Phone, Cell, Email, BirthDate, HomeCommunity, CurrentCommunity, AboutMe, BusinessCard, TokenId, CreatedTime, UpdatedTime, Locales, KeyWords, LastAccessTime  string
    Photo, VoiceForRecognition, FingerPrints []byte
 }
+func (i *Persona) Item() struct {
+   // Persona initialization
+   Persona.LegalId, Persona.Password, Persona.PhaseForPassword, Persona.FirstName, Persona.LastName, Persona.Salute, Persona.KnownAs, Persona.Phone, Persona.Cell, Persona.Email, Persona.BirthDate, Persona.HomeCommunity, Persona.CurrentCommunity, Persona.AboutMe, Persona.BusinessCard, Persona.TokenId, Persona.CreatedTime, Persona.UpdatedTime, Persona.Locales, Persona.KeyWords, Persona.LastAccessTime = ""
+   Persona.Photo, Persona.VoiceForRecognition, Persona.FingerPrints = []byte("")
 
-// use value receiver for encoding and decoding json
-func (p Persona) EncodePersona() []byte {
-   data, err := json.Marshall(p)
-   if err != nil {
-     panic(err)
-   }
-
-   return data
-}
-func DecodePersona(data []byte) (Persona, error) {
-   var p Persona
-   err := json.Unmarshal(data, &p)
-   return p, err
+   return
 }
 
-// To update item we GetItem, change it through pointer and SetItem
+// To update item db.Update
 // We build up and provide key, value []byte 
 func GetItem (key []byte) {
 
@@ -72,6 +64,9 @@ func SetItem (key, value []byte) {
    }
 
 }
+func UpdateItem (func(txn *badger.Txn) error {
+
+}
 
 type Event struct { 
   /* 
@@ -87,6 +82,14 @@ type Event struct {
   */
   ContextAtts map[string], Extensions map[string], Data map[string] []byte
 }
+func (i *Event) Item() struct {
+   // Event initialization
+   Event.ContextAtts = make(map[string]) []byte("")
+   Event.Extensions = make(map[string]) []byte("")
+   Event.Data = Make(map[string]) []byte
+
+   return
+}
 
 type EventPro interface {
    Evp() Event
@@ -96,175 +99,98 @@ func (e *Event) Evp() Event {
 }
 
 
-
 type Eip struct {
 
 }
-func (e Eip) EncodeEip() []byte {
-   data, err := json.Marshall(e)
-   if err != nil {
-     panic(err)
-   }
+func (i *Eip) Item() struct {
+   // Eip initialization
 
-   return data
-}
-func DecodeEip(data []byte) (Eip, error) {
-   var e Eip
-   err := json.Unmarshal(data, &e)
-   return e, err
+   return
 }
 
 type Chat struct {
 
 }
-func (c Chat) EncodeService() []byte {
-   data, err := json.Marshall(c)
-   if err != nil {
-     panic(err)
-   }
+func (i *Chat) Item() struct {
+   // Chat initialization
 
-   return data
-}
-func DecodeChat(data []byte) (Chat, error) {
-   var c Chat
-   err := json.Unmarshal(data, &c)
-   return c, err
+   return
 }
 
 type Service struct {
 
 }
-func (s Service) EncodeService() []byte {
-   data, err := json.Marshall(s)
-   if err != nil {
-     panic(err)
-   }
+func (i *Service) Item() struct {
+   // Service initialization
 
-   return data
-}
-func DecodeService(data []byte) (Service, error) {
-   var s Service
-   err := json.Unmarshal(data, &s)
-   return s, err
+   return
 }
 
 type Hr struct {
 
 }
-func (h Hr) EncodeHr() []byte {
-   data, err := json.Marshall(h)
-   if err != nil {
-     panic(err)
-   }
+func (i *Hr) Item() struct {
+   // Hr initialization
 
-   return data
-}
-func DecodeHr(data []byte) (Hr, error) {
-   var h Hr
-   err := json.Unmarshal(data, &h)
-   return h, err
+   return
 }
 
 type Gslp struct {
 
 }
-func (g Gslp) EncodeGslp() []byte {
-   data, err := json.Marshall(g)
-   if err != nil {
-     panic(err)
-   }
+func (i *Gslp) Item() struct {
+   // Gslp initialization
 
-   return data
+   return
 }
-func DecodeGslp(data []byte) (Gslp, error) {
-   var g Gslp
-   err := json.Unmarshal(data, &g)
-   return g, err
-}
+
 
 type Link struct {
 
 }
-func (l Link) EncodeLink() []byte {
-   data, err := json.Marshall(l)
-   if err != nil {
-     panic(err)
-   }
+func (i *Link) Item() struct {
+   // Link initialization
 
-   return data
+   return
 }
-func DecodeLink(data []byte) (Link, error) {
-   var l Link
-   err := json.Unmarshal(data, &l)
-   return l, err
-}
+
 
 type Awakening struct {
 
 }
-func (a Awakening) EncodeAwakening() []byte {
-   data, err := json.Marshall(a)
-   if err != nil {
-     panic(err)
-   }
+func (i *Awakening) Item() struct {
+   // Awakening initialization
 
-   return data
-}
-func DecodeAwakening(data []byte) (Awakening, error) {
-   var a Awakening
-   err := json.Unmarshal(data, &a)
-   return a, err
+   return
 }
 
 type Git struct {
 
 }
-func (g Git) EncodeGit() []byte {
-   data, err := json.Marshall(g)
-   if err != nil {
-     panic(err)
-   }
+func (i *Git) Item() struct {
+   // Git initialization
 
-   return data
+   return
 }
-func DecodeGid(data []byte) (Git, error) {
-   var g Git
-   err := json.Unmarshal(data, &g)
-   return g, err
-}
+
 
 type Iot struct {
 
 }
-func (i Iot) EncodeIot() []byte {
-   data, err := json.Marshall(i)
-   if err != nil {
-     panic(err)
-   }
+func (i *Iot) Item() struct {
+   // Iot initialization
 
-   return data
+   return
 }
-func DecodeIot(data []byte) (Iot, error) {
-   var i Iot
-   err := json.Unmarshal(data, &i)
-   return i, err
-}
+
 
 type Ai struct {
 
 }
-func (a Ai) EncodeAi() []byte {
-   data, err := json.Marshall(a)
-   if err != nil {
-     panic(err)
-   }
+func (i *Ai) Item() struct {
+   // Ai initialization
 
-   return data
-}
-func DecodeAi(data []byte) (Ai, error) {
-   var a Ai
-   err := json.Unmarshal(data, &a)
-   return a, err
+   return
 }
 
 
