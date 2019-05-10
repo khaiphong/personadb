@@ -19,57 +19,87 @@ https://www.youtube.com/watch?v=E8-e-3fRHBw - Managing Data in Microservices, ap
 package persona
 
 import (
+//   "log"
    "fmt"
+   "encoding/json"
 )
 
-type Persona struct {
-   LegalId, Password, PhaseForPassword, FirstName, LastName, Salute, KnownAs, Phone, Cell, Email, BirthDate, HomeCommunity, CurrentCommunity, AboutMe, BusinessCard, TokenId, CreatedTime, UpdatedTime, Locales, KeyWords, LastAccessTime  string
-   Photo, VoiceForRecognition, FingerPrints []byte
+type persona struct {
+	LegalId			string	`json:"legalId"`
+	Password		string	`json:"password"`
+	PhaseForPassword	string	`json:"phaseForPassword"`
+	FirstName		string	`json:"firstName"`
+	LastName		string	`json:"lastName"`
+	Salute			string	`json:"salute"`
+	KnownAs			string	`json:"knownAs"`
+	Phone			string	`json:"phone"`
+	Cell			string	`json:"cell"`
+	Email			string	`json:"email"`
+	BirthDate		string	`json:"birthDate"`
+	HomeCommunity		string	`json:"homeCommunity"`
+	CurrentCommunity	string	`json:"currentCommunity"`
+	AboutMe			string	`json:"aboutMe"`
+	BusinessCard		string	`json:"businessCard"`
+	TokenId			string	`json:"tokenId"`
+	CreatedTime		string	`json:"createdTime"`
+	UpdatedTime		string	`json:"updatedTime"`
+	Locales			string	`json:"locales"`
+	KeyWords		string	`json:"keyWords"`
+	LastAccessTime		string	`json:"lastAccessTime"`
+//	Photo			[]byte	`json:"photo"`
+//	VoiceForRecognition	[]byte	`json:"voiceForRecognition"`
+//	FingerPrints		[]byte	`json:"fingerPrints"`
 }
-func (i *Persona) Item() struct {
-   // Persona initialization
-   Persona.LegalId, Persona.Password, Persona.PhaseForPassword, Persona.FirstName, Persona.LastName, Persona.Salute, Persona.KnownAs, Persona.Phone, Persona.Cell, Persona.Email, Persona.BirthDate, Persona.HomeCommunity, Persona.CurrentCommunity, Persona.AboutMe, Persona.BusinessCard, Persona.TokenId, Persona.CreatedTime, Persona.UpdatedTime, Persona.Locales, Persona.KeyWords, Persona.LastAccessTime = ""
-   Persona.Photo, Persona.VoiceForRecognition, Persona.FingerPrints = []byte("")
 
-   return
+func PerInit() []byte {
+   // struct data are converted to []byte using json.Marshall
+   personaD := &persona{
+	LegalId:		"123",
+	Password:		"pass",
+	PhaseForPassword:	"myPass",
+	FirstName:		"First",
+	LastName:		"Last",
+	Salute:			"Dr",
+	KnownAs:		"Last First",
+	Phone:			"6045748712",
+	Cell:			"6041234567",
+	Email:			"email.google.com",
+	BirthDate:		"201225",
+	HomeCommunity:		"Calgary",
+	CurrentCommunity:	"Vancouver",
+	AboutMe:		"Hi",
+	BusinessCard:		"LastFirst",
+	TokenId:		"1234",
+	CreatedTime:		"",
+	UpdatedTime:		"",
+	Locales:		"English Vietnamese Freanch",
+	KeyWords:		"",
+	LastAccessTime:		"190923"}
+
+   byteEncode, _ := json.Marshal(personaD)
+   fmt.Println(string(byteEncode))
+   return byteEncode
 }
 
-// To update item db.Update
-// We build up and provide key, value []byte 
-func GetItem (key []byte) {
 
-   var item badger.KVItem
-   err = kv.Get([]byte(key), &item)
-   if err != nil {
+func EncodeByte(bD *[]byte) []byte {
+   byteEncode, _ := json.Marshal(bD)
+   fmt.Println(string(byteEncode))
+   return byteEncode
+}
+
+func DecodeByte(bE []byte) []byte {
+   var byteData []byte
+   if err := json.Unmarshal(bE, &byteData); err != nil {
       panic(err)
    }
-
-   item, err := decodePersona(item.Value())
-   if err != nil {
-      panic(err)
-   }
-
-   fmt.Println(String(item.Value()))
-}
-func SetItem (key, value []byte) {
-   // assuming badger ia at /app/data directory
-   kv, err := badger.Open("/app/data")
-   if err != nil {
-      panic(err)
-   }
-
-   err = kv.Set(key, value)
-   if err != nil {
-      panic(err)
-   }
-
-}
-func UpdateItem (func(txn *badger.Txn) error {
-
+   fmt.Println(byteData)
+   return byteData
 }
 
+/*
 type Event struct { 
-  /* 
+   
     use goroutines and channels for parallelism and concurrencies.
     ContextAtts: eventType, eventOwners, eventSource, eventID, schemaURL, contentType string
       label, tag, serverlessFunction  string
@@ -79,7 +109,7 @@ type Event struct {
       location, actionTopic, qualifier, SIC rating, composableEvent string.
 
     We can use label and tag and put all events in 1 OmHub. Break it later into topics/markets. Enable producers create registered topics. Detention policy 90 days.
-  */
+  
   ContextAtts map[string], Extensions map[string], Data map[string] []byte
 }
 func (i *Event) Item() struct {
@@ -99,99 +129,55 @@ func (e *Event) Evp() Event {
 }
 
 
-type Eip struct {
 
+
+// API structure: available directories for person, depths of API for service
+type apiStruct1 struct {
+    Owner   string
+    Layers []string
 }
-func (i *Eip) Item() struct {
-   // Eip initialization
-
-   return
-}
-
-type Chat struct {
-
-}
-func (i *Chat) Item() struct {
-   // Chat initialization
-
-   return
+type apiStruct2 struct {
+    Owner   string  `json:"owner"`
+    Layers []string `json:"layers"`
 }
 
-type Service struct {
+   // Struct data are converted to []byte using json.Marshall
+   // Layers are used to build keys for struct values of the service
+   api1D := &apiStruct1{
+        Owner:   "KhaiPhong",
+        Layers: []string{"git", "iot", "ai"}}
+   api1B, _ := json.Marshal(api1D)
+   fmt.Println(string(api1B))
+   // {"Owner":"KhaiPhong","Layers":["git","iot","ai"]}
 
-}
-func (i *Service) Item() struct {
-   // Service initialization
+   api2D := &apiStruct2{
+        Owner:   "KhaiPhong",
+        Layers: []string{"git", "iot", "ai"}}
+   api2B, _ := json.Marshal(api2D)
+   fmt.Println(string(api2B))
+   // {"owner":"KhaiPhong","layers":["git","iot","ai"]}
 
-   return
-}
+   // the []byte value is converted back via Unmarshall
+   byt := []byte(`{
+		"num":6.13,
+		"strs":["a","b"]	}`)
+   var dat map[string]interface{}
+   if err := json.Unmarshal(byt, &dat); err != nil {
+      panic(err)
+   }
+   fmt.Println(dat)
+   // map[num:6.13 strs:[a b]]
 
-type Hr struct {
+   str := `{
+		"owner": "KhaiPhong", 
+		"layers": ["git", "iot"]
+	   }`
+   api := apiStruct2{}
+   json.Unmarshal([]byte(str), &api)
+   fmt.Println(api)
+   // {KhaiPhong [git iot]}
+   fmt.Println(api.Layers[0])
+   // git
 
-}
-func (i *Hr) Item() struct {
-   // Hr initialization
-
-   return
-}
-
-type Gslp struct {
-
-}
-func (i *Gslp) Item() struct {
-   // Gslp initialization
-
-   return
-}
-
-
-type Link struct {
-
-}
-func (i *Link) Item() struct {
-   // Link initialization
-
-   return
-}
-
-
-type Awakening struct {
-
-}
-func (i *Awakening) Item() struct {
-   // Awakening initialization
-
-   return
-}
-
-type Git struct {
-
-}
-func (i *Git) Item() struct {
-   // Git initialization
-
-   return
-}
-
-
-type Iot struct {
-
-}
-func (i *Iot) Item() struct {
-   // Iot initialization
-
-   return
-}
-
-
-type Ai struct {
-
-}
-func (i *Ai) Item() struct {
-   // Ai initialization
-
-   return
-}
-
-
+*/
 

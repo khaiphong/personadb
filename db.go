@@ -14,99 +14,163 @@
 package main
 
 import (
-   "encoding/json"
+   "log"
    "fmt"
+//   "encoding/json"
+//   "reflect"
 
    "github.com/dgraph-io/badger"
    "github.com/khaiphong/personadb/persona"
 )
 
-type Itemer interface {
-   Item() struct
-}
 
 func main() {
    opts := badger.DefaultOptions
-   opts.Dir = "/apt/data"
-   opts.ValueDir = "/apt/data"
-   db, err := badger.Open(&opts)
-   Handle(err)
-
-   err := db.Update(func(txn *badger.Txn) error {
-      if _, err := txn.Get([]byte("pEip")); err == badger.ErrKeyNotFound
-         fmt.Println("No existing pEip found or no db")
-         // create new database
-         db, err := badger.NewKV(&opts)
-         if err != nil {
-            panic(err)
-         }
-
-         // we use key first level from Mu. and its value for sorting the keys
-         err = db.Set([]byte("pEip"), []byte("eip"))
-         if err != nil {
-            panic(err)
-         }
-         err = db.Set([]byte("pChat"), []byte("chat"))
-         if err != nil {
-            panic(err)
-         }
-         err = db.Set([]byte("pService"), []byte("service"))
-         if err != nil {
-            panic(err)
-         }
-         err = db.Set([]byte("pHr"), []byte("hr"))
-         if err != nil {
-            panic(err)
-         }
-         err = db.Set([]byte("pGslp"), []byte("gslp"))
-         if err != nil {
-            panic(err)
-         }
-         err = db.Set([]byte("pLink"), []byte("link"))
-         if err != nil {
-            panic(err)
-         }
-         err = db.Set([]byte("pAwakening"), []byte("awakening"))
-         if err != nil {
-            panic(err)
-         }
-
-
-         // other key first level
-         err = db.Set([]byte("pGit"), []byte("git"))
-         if err != nil {
-            panic(err)
-         }
-         err = db.Set([]byte("pIoT"), []byte("iot"))
-         if err != nil {
-            panic(err)
-         }
-         err = db.Set([]byte("pAI"), []byte("ai"))
-         if err != nil {
-            panic(err)
-         }
- 
-      } // end of if _
-   }) // end of db.Update
-
-   var i Itemer
-   func (i Itemer) EncodeItemer() []byte {
-      data, err := json.Marshall(i)
-      if err != nil {
-        panic(err)
-      }
-
-      return data
-   }
-   func DecodeItemer(data []byte) (Itemer, error) {
-      var i Itemer
-      err := json.Unmarshal(data, &i)
-      return i, err
+   opts.Dir = "/tmp/personadb"
+   opts.ValueDir = "/tmp/personadb"
+   db, err := badger.Open(opts)
+   if err != nil {
+      log.Fatal(err)
    }
 
    defer db.Close()
 
+   db.View(func(txn *badger.Txn) error {
+      item, err := txn.Get([]byte("Owner"))
+      if err != nil {
+         return err
+         // new PersonaDB
+	db.Update(func(txn *badger.Txn) error {
+		err := txn.Set([]byte("Owner"), persona.PerInit())
+		if err != nil {
+			return err
+		}
+		fmt.Println("Set Owner to persona data")
+		return nil
+	})
 
+	db.Update(func(txn *badger.Txn) error {
+		err := txn.Set([]byte("Eip"), []byte("eip"))
+		if err != nil {
+			return err
+		}
+		fmt.Println("Set Eip to eip")
+		return nil
+	})
+	db.Update(func(txn *badger.Txn) error {
+		err := txn.Set([]byte("Chat"), []byte("chat"))
+		if err != nil {
+			return err
+		}
+		fmt.Println("Set Chat to chat")
+		return nil
+	})
+	db.Update(func(txn *badger.Txn) error {
+		err := txn.Set([]byte("Service"), []byte("service"))
+		if err != nil {
+			return err
+		}
+		fmt.Println("Set Service to service")
+		return nil
+	})
+	db.Update(func(txn *badger.Txn) error {
+		err := txn.Set([]byte("Hr"), []byte("hr"))
+		if err != nil {
+			return err
+		}
+		fmt.Println("Set Hr to hr")
+		return nil
+	})
+	db.Update(func(txn *badger.Txn) error {
+		err := txn.Set([]byte("Gslp"), []byte("gslp"))
+		if err != nil {
+			return err
+		}
+		fmt.Println("Set Gslp to gslp")
+		return nil
+	})
+	db.Update(func(txn *badger.Txn) error {
+		err := txn.Set([]byte("Link"), []byte("link"))
+		if err != nil {
+			return err
+		}
+		fmt.Println("Set Link to link")
+		return nil
+	})
+	db.Update(func(txn *badger.Txn) error {
+		err := txn.Set([]byte("Awakening"), []byte("awakening"))
+		if err != nil {
+			return err
+		}
+		fmt.Println("Set Awakening to awakening")
+		return nil
+	})
+
+	db.Update(func(txn *badger.Txn) error {
+		err := txn.Set([]byte("Git"), []byte("git"))
+		if err != nil {
+			return err
+		}
+		fmt.Println("Set Git to git")
+		return nil
+	})
+	db.Update(func(txn *badger.Txn) error {
+		err := txn.Set([]byte("Iot"), []byte("iot"))
+		if err != nil {
+			return err
+		}
+		fmt.Println("Set Iot to iot")
+		return nil
+	})
+	db.Update(func(txn *badger.Txn) error {
+		err := txn.Set([]byte("Ai"), []byte("ai"))
+		if err != nil {
+			return err
+		}
+		fmt.Println("Set Ai to ai")
+		return nil
+	})
+	db.Update(func(txn *badger.Txn) error {
+		err := txn.Set([]byte("Prometheus"), []byte("prometheus"))
+		if err != nil {
+			return err
+		}
+		fmt.Println("Set Prometheus to prometheus")
+		return nil
+	})
+
+      } // end of err from new db
+
+      item.Value(func(val []byte) error {
+         fmt.Printf("The value is: %s\n", val)
+
+         return nil
+      })
+
+      return nil
+   }) // end of db.View owner
 
 }
+
+
+/*
+   fmt.Println("\nRunning ITERATE")
+   db.View(func(txn *badger.Txn) error {
+      opts := badger.DefaultIteratorOptions
+      it := txn.NewIterator(opts)
+      defer it.Close()
+
+      for it.Rewind(); it.Valid(); it.Next() {
+         k := it.Item().Key
+         v := it.Item().Value
+         fmt.Println("key=%s, value=%s\n", k, v)
+      }
+      return nil
+   })
+
+   fmt.Println("DB close")
+*/
+
+
+
 
