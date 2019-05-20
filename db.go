@@ -16,8 +16,6 @@ package main
 import (
    "log"
    "fmt"
-//   "encoding/json"
-//   "reflect"
 
    "github.com/dgraph-io/badger"
    "github.com/khaiphong/personadb/persona"
@@ -38,14 +36,13 @@ func main() {
    db.View(func(txn *badger.Txn) error {
       item, err := txn.Get([]byte("Owner"))
       if err != nil {
-         return err
-         // new PersonaDB
+        // new PersonaDB
 	db.Update(func(txn *badger.Txn) error {
-		err := txn.Set([]byte("Owner"), persona.PerInit())
+		err := txn.Set([]byte("Owner"), persona.PersonaInit())
 		if err != nil {
 			return err
 		}
-		fmt.Println("Set Owner to persona data")
+		fmt.Println("Set Owner of persona data")
 		return nil
 	})
 
@@ -139,38 +136,18 @@ func main() {
 		return nil
 	})
 
-      } // end of err from new db
+	return err
+      }
 
       item.Value(func(val []byte) error {
-         fmt.Printf("The value is: %s\n", val)
-
+         fmt.Printf("The owner is: %s\n", val)
          return nil
       })
 
       return nil
-   }) // end of db.View owner
+   }) // end of Get([]byte("Owner"))
 
-}
-
-
-/*
-   fmt.Println("\nRunning ITERATE")
-   db.View(func(txn *badger.Txn) error {
-      opts := badger.DefaultIteratorOptions
-      it := txn.NewIterator(opts)
-      defer it.Close()
-
-      for it.Rewind(); it.Valid(); it.Next() {
-         k := it.Item().Key
-         v := it.Item().Value
-         fmt.Println("key=%s, value=%s\n", k, v)
-      }
-      return nil
-   })
-
-   fmt.Println("DB close")
-*/
-
+} // end of main()
 
 
 

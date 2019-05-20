@@ -24,6 +24,8 @@ import (
    "encoding/json"
 )
 
+var LegalId, TokenId, Locales, KeyWords, LastAccessTime string
+
 type persona struct {
 	LegalId			string	`json:"legalId"`
 	Password		string	`json:"password"`
@@ -46,12 +48,14 @@ type persona struct {
 	Locales			string	`json:"locales"`
 	KeyWords		string	`json:"keyWords"`
 	LastAccessTime		string	`json:"lastAccessTime"`
-//	Photo			[]byte	`json:"photo"`
-//	VoiceForRecognition	[]byte	`json:"voiceForRecognition"`
-//	FingerPrints		[]byte	`json:"fingerPrints"`
+	Photo			[]byte	`json:"photo"`
+	VoiceForRecognition	[]byte	`json:"voiceForRecognition"`
+	FingerPrints		[]byte	`json:"fingerPrints"`
 }
 
-func PerInit() []byte {
+// generate unique legalId in OmHub and tokenId
+
+func PersonaInit() []byte {
    // struct data are converted to []byte using json.Marshall
    personaD := &persona{
 	LegalId:		"123",
@@ -74,28 +78,40 @@ func PerInit() []byte {
 	UpdatedTime:		"",
 	Locales:		"English Vietnamese Freanch",
 	KeyWords:		"",
-	LastAccessTime:		"190923"}
+	LastAccessTime:		"190923",
+	Photo:			[]byte("Photo"),
+	VoiceForRecognition:	[]byte("VoiceForRecognition"),
+	FingerPrints:		[]byte("FingerPrints")}
 
-   byteEncode, _ := json.Marshal(personaD)
-   fmt.Println(string(byteEncode))
-   return byteEncode
+	byteEncode, _ := json.Marshal(personaD)
+ 	fmt.Println(string(byteEncode))
+	return byteEncode
 }
 
-
-func EncodeByte(bD *[]byte) []byte {
+func encodeByte(bD *[]byte) []byte {
    byteEncode, _ := json.Marshal(bD)
    fmt.Println(string(byteEncode))
    return byteEncode
 }
 
-func DecodeByte(bE []byte) []byte {
-   var byteData []byte
-   if err := json.Unmarshal(bE, &byteData); err != nil {
-      panic(err)
-   }
-   fmt.Println(byteData)
-   return byteData
-}
+
+/*
+   fmt.Println("\nRunning ITERATE")
+   db.View(func(txn *badger.Txn) error {
+      opts := badger.DefaultIteratorOptions
+      it := txn.NewIterator(opts)
+      defer it.Close()
+
+      for it.Rewind(); it.Valid(); it.Next() {
+         k := it.Item().Key
+         v := it.Item().Value
+         fmt.Println("key=%s, value=%s\n", k, v)
+      }
+      return nil
+   })
+
+   fmt.Println("DB close")
+*/
 
 /*
 type Event struct { 
