@@ -21,7 +21,6 @@ import (
    "github.com/khaiphong/personadb/persona"
 )
 
-
 func main() {
    opts := badger.DefaultOptions
    opts.Dir = "/tmp/personadb"
@@ -36,108 +35,79 @@ func main() {
    db.View(func(txn *badger.Txn) error {
       item, err := txn.Get([]byte("Owner"))
       if err != nil {
-        // new PersonaDB
-	db.Update(func(txn *badger.Txn) error {
-		err := txn.Set([]byte("Owner"), persona.PersonaInit())
-		if err != nil {
-			return err
-		}
-		fmt.Println("Set Owner of persona data")
-		return nil
-	})
+        // new PersonaDB Start a writable transaction.
+	txn := db.NewTransaction(true)
+	defer txn.Discard()
 
-	db.Update(func(txn *badger.Txn) error {
-		err := txn.Set([]byte("Eip"), []byte("eip"))
-		if err != nil {
-			return err
-		}
-		fmt.Println("Set Eip to eip")
-		return nil
-	})
-	db.Update(func(txn *badger.Txn) error {
-		err := txn.Set([]byte("Chat"), []byte("chat"))
-		if err != nil {
-			return err
-		}
-		fmt.Println("Set Chat to chat")
-		return nil
-	})
-	db.Update(func(txn *badger.Txn) error {
-		err := txn.Set([]byte("Service"), []byte("service"))
-		if err != nil {
-			return err
-		}
-		fmt.Println("Set Service to service")
-		return nil
-	})
-	db.Update(func(txn *badger.Txn) error {
-		err := txn.Set([]byte("Hr"), []byte("hr"))
-		if err != nil {
-			return err
-		}
-		fmt.Println("Set Hr to hr")
-		return nil
-	})
-	db.Update(func(txn *badger.Txn) error {
-		err := txn.Set([]byte("Gslp"), []byte("gslp"))
-		if err != nil {
-			return err
-		}
-		fmt.Println("Set Gslp to gslp")
-		return nil
-	})
-	db.Update(func(txn *badger.Txn) error {
-		err := txn.Set([]byte("Link"), []byte("link"))
-		if err != nil {
-			return err
-		}
-		fmt.Println("Set Link to link")
-		return nil
-	})
-	db.Update(func(txn *badger.Txn) error {
-		err := txn.Set([]byte("Awakening"), []byte("awakening"))
-		if err != nil {
-			return err
-		}
-		fmt.Println("Set Awakening to awakening")
-		return nil
-	})
+	// Use the transaction...
+	txn.Set([]byte("Owner"), persona.PersonaInit())
+	if err != nil {
+		return err
+	}
+	fmt.Println("Set Owner of persona data")
 
-	db.Update(func(txn *badger.Txn) error {
-		err := txn.Set([]byte("Git"), []byte("git"))
-		if err != nil {
-			return err
-		}
-		fmt.Println("Set Git to git")
-		return nil
-	})
-	db.Update(func(txn *badger.Txn) error {
-		err := txn.Set([]byte("Iot"), []byte("iot"))
-		if err != nil {
-			return err
-		}
-		fmt.Println("Set Iot to iot")
-		return nil
-	})
-	db.Update(func(txn *badger.Txn) error {
-		err := txn.Set([]byte("Ai"), []byte("ai"))
-		if err != nil {
-			return err
-		}
-		fmt.Println("Set Ai to ai")
-		return nil
-	})
-	db.Update(func(txn *badger.Txn) error {
-		err := txn.Set([]byte("Prometheus"), []byte("prometheus"))
-		if err != nil {
-			return err
-		}
-		fmt.Println("Set Prometheus to prometheus")
-		return nil
-	})
+	txn.Set([]byte("Eip"), []byte("eip"))
+	if err != nil {
+		return err
+	}
+	fmt.Println("Set Eip to eip")
+	txn.Set([]byte("Chat"), []byte("chat"))
+	if err != nil {
+	    return err
+	}
+	fmt.Println("Set Chat to chat")
+	txn.Set([]byte("Service"), []byte("service"))
+	if err != nil {
+		return err
+	}
+	fmt.Println("Set Service to service")
+	txn.Set([]byte("Hr"), []byte("hr"))
+	if err != nil {
+		return err
+	}
+	fmt.Println("Set Hr to hr")
+	txn.Set([]byte("Gslp"), []byte("gslp"))
+	if err != nil {
+		return err
+	}
+	fmt.Println("Set Gslp to gslp")
+	txn.Set([]byte("Link"), []byte("link"))
+	if err != nil {
+		return err
+	}
+	fmt.Println("Set Link to link")
+	txn.Set([]byte("Awakening"), []byte("awakening"))
+	if err != nil {
+		return err
+	}
+	fmt.Println("Set Awakening to awakening")
 
-	return err
-      }
+	txn.Set([]byte("Git"), []byte("git"))
+	if err != nil {
+		return err
+	}
+	fmt.Println("Set Git to git")
+	txn.Set([]byte("Iot"), []byte("iot"))
+	if err != nil {
+		return err
+	}
+	fmt.Println("Set Iot to iot")
+	txn.Set([]byte("Iot"), []byte("iot"))
+	if err != nil {
+		return err
+	}
+	fmt.Println("Set Iot to iot")
+	txn.Set([]byte("Prometheus"), []byte("prometheus"))
+	if err != nil {
+		return err
+	}
+	fmt.Println("Set Prometheus to prometheus")
+
+	// Commit the transaction and check for error.
+	if err := txn.Commit(); err != nil {
+	    return err
+	}
+      } // end a writable transaction.
 
       item.Value(func(val []byte) error {
          fmt.Printf("The owner is: %s\n", val)
@@ -149,5 +119,29 @@ func main() {
 
 } // end of main()
 
+func iterateKeys(rootKey string) {
+   fmt.Println("\nRunning ITERATE")
+   opts := badger.DefaultOptions
+   opts.Dir = "/tmp/personadb"
+   opts.ValueDir = "/tmp/personadb"
+   db, err := badger.Open(opts)
+   if err != nil {
+      log.Fatal(err)
+   }
+   defer db.Close()
 
+   db.View(func(txn *badger.Txn) error {
+      opts := badger.DefaultIteratorOptions
+      it := txn.NewIterator(opts)
+
+      for it.Rewind(); it.Valid(); it.Next() {
+         k := it.Item().Key
+         v := it.Item().Value
+         fmt.Println("key=%s, value=%s\n", k, v)
+      }
+      return nil
+   })
+
+   fmt.Println("DB close")
+}
 
