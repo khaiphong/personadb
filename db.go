@@ -35,7 +35,8 @@ func main() {
    db.View(func(txn *badger.Txn) error {
       item, err := txn.Get([]byte("Owner"))
       if err != nil {
-        // new PersonaDB Start a writable transaction.
+      // new PersonaDB Start a writable transaction. There are 7 leveled key
+      //Service/blog.khaiphong.io/190923/right-mindfulness.html->content in SSD
 	txn := db.NewTransaction(true)
 	defer txn.Discard()
 
@@ -119,7 +120,7 @@ func main() {
 
 } // end of main()
 
-func iterateKeys(rootKey string) {
+func iterateKeys(fromKey string) {
    fmt.Println("\nRunning ITERATE")
    opts := badger.DefaultOptions
    opts.Dir = "/tmp/personadb"
@@ -135,9 +136,15 @@ func iterateKeys(rootKey string) {
       it := txn.NewIterator(opts)
 
       for it.Rewind(); it.Valid(); it.Next() {
-         k := it.Item().Key
-         v := it.Item().Value
-         fmt.Println("key=%s, value=%s\n", k, v)
+	item := it.Item()
+   	k := item.Key()
+	err := item.Value(func(v []byte) error {
+		fmt.Printf("key=%s, value=%s\n", k, v)
+		return nil
+	})
+	if err != nil {
+		return err
+    	}
       }
       return nil
    })

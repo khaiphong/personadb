@@ -14,6 +14,7 @@ https://www.youtube.com/watch?v=szOZ3p-5YIc block chain with badger
 https://github.com/prometheus/tsdb - implement Prometheus
 https://www.youtube.com/watch?v=cHXbYLNa0qQ - Dgraph distributed db
 https://www.youtube.com/watch?v=E8-e-3fRHBw - Managing Data in Microservices, applying AI.
+https://www.gameplan.global/ we go beyond task managements, project planning, and cost optimization with visual white board, generation of Gantt chart, and integration of SIS to dynamically change oneself and the environment toward What Count.
 */
 
 package persona
@@ -27,30 +28,31 @@ import (
 var LegalId, TokenId, Locales, KeyWords, LastAccessTime string
 
 type persona struct {
-	LegalId			string	`json:"legalId"`
-	Password		string	`json:"password"`
-	PhaseForPassword	string	`json:"phaseForPassword"`
 	FirstName		string	`json:"firstName"`
 	LastName		string	`json:"lastName"`
 	Salute			string	`json:"salute"`
 	KnownAs			string	`json:"knownAs"`
 	Phone			string	`json:"phone"`
 	Cell			string	`json:"cell"`
-	Email			string	`json:"email"`
 	BirthDate		string	`json:"birthDate"`
 	HomeCommunity		string	`json:"homeCommunity"`
 	CurrentCommunity	string	`json:"currentCommunity"`
 	AboutMe			string	`json:"aboutMe"`
 	BusinessCard		string	`json:"businessCard"`
-	TokenId			string	`json:"tokenId"`
 	CreatedTime		string	`json:"createdTime"`
 	UpdatedTime		string	`json:"updatedTime"`
 	Locales			string	`json:"locales"`
 	KeyWords		string	`json:"keyWords"`
 	LastAccessTime		string	`json:"lastAccessTime"`
 	Photo			[]byte	`json:"photo"`
-	VoiceForRecognition	[]byte	`json:"voiceForRecognition"`
-	FingerPrints		[]byte	`json:"fingerPrints"`
+
+	voiceForRecognition	[]byte	`json:"voiceForRecognition"`
+	fingerPrints		[]byte	`json:"fingerPrints"`
+	legalId			string	`json:"legalId"`
+	password		string	`json:"password"`
+	phaseForPassword	string	`json:"phaseForPassword"`
+	tokenId			string	`json:"tokenId"`
+	email			string	`json:"email"`
 }
 
 // generate unique legalId in OmHub and tokenId
@@ -58,30 +60,31 @@ type persona struct {
 func PersonaInit() []byte {
    // struct data are converted to []byte using json.Marshall
    personaD := &persona{
-	LegalId:		"123",
-	Password:		"pass",
-	PhaseForPassword:	"myPass",
 	FirstName:		"First",
 	LastName:		"Last",
 	Salute:			"Dr",
 	KnownAs:		"Last First",
 	Phone:			"6045748712",
 	Cell:			"6041234567",
-	Email:			"email.google.com",
 	BirthDate:		"201225",
 	HomeCommunity:		"Calgary",
-	CurrentCommunity:	"Vancouver",
+	CurrentCommunity:	"Edmonton",
 	AboutMe:		"Hi",
 	BusinessCard:		"LastFirst",
-	TokenId:		"1234",
 	CreatedTime:		"",
 	UpdatedTime:		"",
-	Locales:		"English Vietnamese Freanch",
+	Locales:		"English Vietnamese French",
 	KeyWords:		"",
 	LastAccessTime:		"190923",
 	Photo:			[]byte("Photo"),
-	VoiceForRecognition:	[]byte("VoiceForRecognition"),
-	FingerPrints:		[]byte("FingerPrints")}
+
+	voiceForRecognition:	[]byte("VoiceForRecognition"),
+	fingerPrints:		[]byte("FingerPrints"),
+	legalId:		"newID123",
+	password:		"pass",
+	phaseForPassword:	"myPass",
+	tokenId:		"34567",
+	email:			"email.google.com"}
 
 	byteEncode, _ := json.Marshal(personaD)
  	fmt.Println(string(byteEncode))
