@@ -16,10 +16,18 @@ package main
 import (
    "log"
    "fmt"
+   "net/http"
 
    "github.com/dgraph-io/badger"
    "github.com/khaiphong/personadb/persona"
 )
+
+// use simple web server to test docker development and packaging
+var valOwner []byte
+func handler(w http.ResponseWriter, r *http.Request) {
+    fmt.Printf("The owner is: %s\n", valOwner)
+//    fmt.Printf(w, "Hi there, I love %s!", r.URL.Path[1:])
+}
 
 func main() {
    opts := badger.DefaultOptions
@@ -52,36 +60,144 @@ func main() {
 		return err
 	}
 	fmt.Println("Set Eip to eip")
+	// eip starts with Free Todo leading to Plan, and PersonaAI
+	txn.Set([]byte("Eip/Todo"), []byte("eip/todo"))
+	if err != nil {
+		return err
+	}
+	fmt.Println("Set Eip/Todo to eip/todo")
+	txn.Set([]byte("Eip/PersonaAI"), []byte("eip/personaai"))
+	if err != nil {
+		return err
+	}
+	fmt.Println("Set Eip/PersonaAi to eip/personaai")
+
 	txn.Set([]byte("Chat"), []byte("chat"))
 	if err != nil {
 	    return err
 	}
 	fmt.Println("Set Chat to chat")
+	// chat starts with Free BodyMind and private Blog o publised yy/mm/dd
+	txn.Set([]byte("Chat/BodyMind"), []byte("chat/bodymind"))
+	if err != nil {
+	    return err
+	}
+	fmt.Println("Set Chat/BodyMind to chat/bodymind")
+	txn.Set([]byte("Chat/WWW"), []byte("chat/www"))
+	if err != nil {
+	    return err
+	}
+	fmt.Println("Set Chat/WWW to chat/www")
+	txn.Set([]byte("Chat/Blog"), []byte("chat/blog"))
+	if err != nil {
+	    return err
+	}
+	fmt.Println("Set Chat/Blog to chat/blog")
+/*
+to be added in starting a private blog
+	txn.Set([]byte("Chat/Blog/2019-09-23"), []byte("chat/blog/2019-09-23"))
+	if err != nil {
+	    return err
+	}
+	fmt.Println("Set Chat/Blog/2019-09-23 to chat/blog/2019-09-23")
+	txn.Set([]byte("Chat/Blog/2019-09-23/Preface"), []byte("chat/blog/2019-09-23/preface"))
+	if err != nil {
+	    return err
+	}
+	fmt.Println("Set Chat/Blog/2019-09-23/Preface to chat/blog/2019-09-23/preface")
+*/
+
 	txn.Set([]byte("Service"), []byte("service"))
 	if err != nil {
 		return err
 	}
 	fmt.Println("Set Service to service")
+	// service public #Pub, #EmptyTheContent, #Akp namespaces
+	txn.Set([]byte("Service/#Pub"), []byte("service/#pub"))
+	if err != nil {
+		return err
+	}
+	fmt.Println("Set Service/#Pub to service/#pub")
+	txn.Set([]byte("Service/#Akp"), []byte("service/#akp"))
+	if err != nil {
+		return err
+	}
+	fmt.Println("Set Service/#Akp to service/#akp")
+	txn.Set([]byte("Service/#EmptyTheContent"), []byte("service/#emptythecontent"))
+	if err != nil {
+		return err
+	}
+	fmt.Println("Set Service/#EmptyTheContent to service/#emptythecontent")
+	// 9 planned clusters
+	txn.Set([]byte("Service/#EmptyTheContent/#PrajnaTIP"), []byte("service/#emptythecontent/#prajnatip"))
+	if err != nil {
+		return err
+	}
+	fmt.Println("Set Service/#EmptyTheContent/#PrajnaTIP to service/#emptythecontent/#prajnatip")
+
 	txn.Set([]byte("Hr"), []byte("hr"))
 	if err != nil {
 		return err
 	}
 	fmt.Println("Set Hr to hr")
+	// hr starts with #MarketValue corresponding to public Hr/#MarketValue
+	txn.Set([]byte("Hr/#MarketValue"), []byte("hr/#marketvalue"))
+	if err != nil {
+		return err
+	}
+	fmt.Println("Set Hr/#MarketValue to hr/#marketvalue")
+
 	txn.Set([]byte("Gslp"), []byte("gslp"))
 	if err != nil {
 		return err
 	}
 	fmt.Println("Set Gslp to gslp")
+	// gslp starts with #Calgary corresponding to public Gslp/#Calgary
+	// coordination of sustainable supply-chain management
+	txn.Set([]byte("Gslp/#Ottawa"), []byte("gslp/#ottawa"))
+	if err != nil {
+		return err
+	}
+	fmt.Println("Set Gslp/#Ottawa to gslp/#ottawa")
+	txn.Set([]byte("Gslp/#Calgary"), []byte("gslp/#calgary"))
+	if err != nil {
+		return err
+	}
+	fmt.Println("Set Gslp/#Calgary to gslp/#calgary")
+	txn.Set([]byte("Gslp/#SupplyChain"), []byte("gslp/#supplychain"))
+	if err != nil {
+		return err
+	}
+	fmt.Println("Set Gslp/#SupplyChain to gslp/#supplychain")
+
 	txn.Set([]byte("Link"), []byte("link"))
 	if err != nil {
 		return err
 	}
 	fmt.Println("Set Link to link")
+	// link InnerCircle and cach in the order of browser, db for offline
+	txn.Set([]byte("Link/InnerCircle"), []byte("link/innercircle"))
+	if err != nil {
+		return err
+	}
+	fmt.Println("Set Link/InnerCircle to link/innercircle")
+	txn.Set([]byte("Link/Cache"), []byte("link/cache"))
+	if err != nil {
+		return err
+	}
+	fmt.Println("Set Link/Cache to link/cache")
+
 	txn.Set([]byte("Awakening"), []byte("awakening"))
 	if err != nil {
 		return err
 	}
 	fmt.Println("Set Awakening to awakening")
+	// awakening #Prajna corresponding to public Awakening/#Prajna
+	txn.Set([]byte("Awakening/#Prajna"), []byte("awakening/#prajna"))
+	if err != nil {
+		return err
+	}
+	fmt.Println("Set Awakening/#Prajna to awakening/#prajna")
 
 	txn.Set([]byte("Git"), []byte("git"))
 	if err != nil {
@@ -112,11 +228,15 @@ func main() {
 
       item.Value(func(val []byte) error {
          fmt.Printf("The owner is: %s\n", val)
+         valOwner = val
          return nil
       })
 
       return nil
    }) // end of Get([]byte("Owner"))
+
+   http.HandleFunc("/", handler)
+   log.Fatal(http.ListenAndServe(":8081", nil))
 
 } // end of main()
 

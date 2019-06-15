@@ -12,7 +12,7 @@
 
 https://www.youtube.com/watch?v=szOZ3p-5YIc block chain with badger
 https://github.com/prometheus/tsdb - implement Prometheus
-https://www.youtube.com/watch?v=cHXbYLNa0qQ - Dgraph distributed db
+
 https://www.youtube.com/watch?v=E8-e-3fRHBw - Managing Data in Microservices, applying AI.
 https://www.gameplan.global/ we go beyond task managements, project planning, and cost optimization with visual white board, generation of Gantt chart, and integration of SIS to dynamically change oneself and the environment toward What Count.
 */
@@ -107,13 +107,13 @@ type Event struct {
 	ID			string	`json:"iD"`
 	SchemaURL		string	`json:"schemaURL"`
 	ContentType		string	`json:"contentType"`
-	// Extensions: label and Tag for all events, then
+	// Extensions: label and Tag for all events, break into topics/markets.
+	// MuCompose processes ComposeEvents yml file
 	Label			string	`json:"label"`
 	Tag			string	`json:"tag"`
 	DataOwners		string	`json:"dataOwners"`
-	// break into topics/markets. ServerlessFunction process ComposeEvents
-	ServerlessFunction	string	`json:"serverlessFunction"`
-	ComposeEvents		string	`json:"composeEvents"`
+	MuCompose		string	`json:"muCompose"`
+	ComposeEvent		string	`json:"composeEvent"`
 	Public			bool	`json:"public"`
 	// Data
 	Location		string	`json:"location"`
@@ -140,8 +140,8 @@ func EventInit() []byte {
 	Label:			"Private",
 	Tag:			"Business",
 	DataOwners:		"abc, def",
-	ServerlessFunction:	"CreditChecking",
-	ComposeEvents:		"Calgary, Edmonton",
+	MuCompose:		"CreditChecking",
+	ComposeEvent:		"CrossBorder",
 	Public:			true,
 
 	Location:		"Calgary",
@@ -161,6 +161,10 @@ func EventInit() []byte {
 
 // different function process Evp() Event
 type EventPro interface {
+   Errorf(string, ...interface{})
+   Warningf(string, ...interface{})
+   Infof(string, ...interface{})
+   Debugf(string, ...interface{})
    Evp() Event
 }
 /*

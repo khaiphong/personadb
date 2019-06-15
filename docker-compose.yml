@@ -7,6 +7,11 @@ services:
     volumes:
       - .:/code
 
+# We first use Dockerfile to build an image and develop layered conteiners
+# while waiting for resources to develop using docker-compose.yml file.
+# The new volumes key mounts the project directory (current directory) on the
+# host to /code inside the container, allowing you to modify the code on the
+# fly, without having to rebuild the image
 # https://medium.com/statuscode/dockerising-a-node-js-and-mongodb-app-d22047e2806f
 #    container_name: personadb
     # pull the image from registry -> use local image personadb:latest
