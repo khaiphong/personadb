@@ -15,6 +15,10 @@ https://github.com/prometheus/tsdb - implement Prometheus
 
 https://www.youtube.com/watch?v=E8-e-3fRHBw - Managing Data in Microservices, applying AI.
 https://www.gameplan.global/ we go beyond task managements, project planning, and cost optimization with visual white board, generation of Gantt chart, and integration of SIS to dynamically change oneself and the environment toward What Count.
+
+The API design must conform to GraphQL standard server, custom made using
+gqlgen to go directly to PersonaDB and PersonaAI built on top of Badger, and
+GraphDB. 
 */
 
 package persona
@@ -55,7 +59,8 @@ type persona struct {
 	email			string	`json:"email"`
 }
 
-// generate unique legalId in OmHub and tokenId
+// generate unique legalId in OmHub and tokenId of external type ID on top of
+// DGraph but conformed to GraphQL ID.
 
 func PersonaInit() []byte {
    // struct data are converted to []byte using json.Marshall
