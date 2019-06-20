@@ -55,22 +55,22 @@ func main() {
 	}
 	fmt.Println("Set Owner of persona data")
 
-	txn.Set([]byte("Eip"), []byte("eip"))
+	txn.Set([]byte("EIP"), []byte("eip"))
 	if err != nil {
 		return err
 	}
-	fmt.Println("Set Eip to eip")
+	fmt.Println("Set EIP to eip")
 	// eip starts with Free Todo leading to Plan, and PersonaAI
-	txn.Set([]byte("Eip/Todo"), []byte("eip/todo"))
+	txn.Set([]byte("EIP/Todo"), []byte("eip/todo"))
 	if err != nil {
 		return err
 	}
-	fmt.Println("Set Eip/Todo to eip/todo")
-	txn.Set([]byte("Eip/PersonaAI"), []byte("eip/personaai"))
+	fmt.Println("Set EIP/Todo to eip/todo")
+	txn.Set([]byte("EIP/PersonaAI"), []byte("eip/personaai"))
 	if err != nil {
 		return err
 	}
-	fmt.Println("Set Eip/PersonaAi to eip/personaai")
+	fmt.Println("Set EIP/PersonaAi to eip/personaai")
 
 	txn.Set([]byte("Chat"), []byte("chat"))
 	if err != nil {
@@ -118,11 +118,11 @@ to be added in starting a private blog
 		return err
 	}
 	fmt.Println("Set Service/#Pub to service/#pub")
-	txn.Set([]byte("Service/#Akp"), []byte("service/#akp"))
+	txn.Set([]byte("Service/#AKP"), []byte("service/#akp"))
 	if err != nil {
 		return err
 	}
-	fmt.Println("Set Service/#Akp to service/#akp")
+	fmt.Println("Set Service/#AKP to service/#akp")
 	txn.Set([]byte("Service/#EmptyTheContent"), []byte("service/#emptythecontent"))
 	if err != nil {
 		return err
@@ -139,36 +139,36 @@ to be added in starting a private blog
 	if err != nil {
 		return err
 	}
-	fmt.Println("Set Hr to hr")
+	fmt.Println("Set HR to hr")
 	// hr starts with #MarketValue corresponding to public Hr/#MarketValue
-	txn.Set([]byte("Hr/#MarketValue"), []byte("hr/#marketvalue"))
+	txn.Set([]byte("HR/#MarketValue"), []byte("hr/#marketvalue"))
 	if err != nil {
 		return err
 	}
-	fmt.Println("Set Hr/#MarketValue to hr/#marketvalue")
+	fmt.Println("Set HR/#MarketValue to hr/#marketvalue")
 
-	txn.Set([]byte("Gslp"), []byte("gslp"))
+	txn.Set([]byte("GSLP"), []byte("gslp"))
 	if err != nil {
 		return err
 	}
-	fmt.Println("Set Gslp to gslp")
-	// gslp starts with #Calgary corresponding to public Gslp/#Calgary
+	fmt.Println("Set GSLP to gslp")
+	// gslp starts with #Calgary corresponding to public GSLP/#Calgary
 	// coordination of sustainable supply-chain management
-	txn.Set([]byte("Gslp/#Ottawa"), []byte("gslp/#ottawa"))
+	txn.Set([]byte("GSLP/#Ottawa"), []byte("gslp/#ottawa"))
 	if err != nil {
 		return err
 	}
-	fmt.Println("Set Gslp/#Ottawa to gslp/#ottawa")
-	txn.Set([]byte("Gslp/#Calgary"), []byte("gslp/#calgary"))
+	fmt.Println("Set GSLP/#Ottawa to gslp/#ottawa")
+	txn.Set([]byte("GSLP/#Calgary"), []byte("gslp/#calgary"))
 	if err != nil {
 		return err
 	}
-	fmt.Println("Set Gslp/#Calgary to gslp/#calgary")
-	txn.Set([]byte("Gslp/#SupplyChain"), []byte("gslp/#supplychain"))
+	fmt.Println("Set GSLP/#Calgary to gslp/#calgary")
+	txn.Set([]byte("GSLP/#SupplyChain"), []byte("gslp/#supplychain"))
 	if err != nil {
 		return err
 	}
-	fmt.Println("Set Gslp/#SupplyChain to gslp/#supplychain")
+	fmt.Println("Set GSLP/#SupplyChain to gslp/#supplychain")
 
 	txn.Set([]byte("Link"), []byte("link"))
 	if err != nil {
@@ -204,21 +204,18 @@ to be added in starting a private blog
 		return err
 	}
 	fmt.Println("Set Git to git")
-	txn.Set([]byte("Iot"), []byte("iot"))
+
+	txn.Set([]byte("IoT"), []byte("iot"))
 	if err != nil {
 		return err
 	}
-	fmt.Println("Set Iot to iot")
-	txn.Set([]byte("Iot"), []byte("iot"))
+	fmt.Println("Set IoT to iot")
+
+	txn.Set([]byte("Dashboard"), []byte("Dashboard"))
 	if err != nil {
 		return err
 	}
-	fmt.Println("Set Iot to iot")
-	txn.Set([]byte("Prometheus"), []byte("prometheus"))
-	if err != nil {
-		return err
-	}
-	fmt.Println("Set Prometheus to prometheus")
+	fmt.Println("Set Dashboard to dashboard")
 
 	// Commit the transaction and check for error.
 	if err := txn.Commit(); err != nil {
