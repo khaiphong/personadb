@@ -1,25 +1,29 @@
 import React from 'react';
-import './App.css';
 import Navbar from './components/Navbar';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import Home from './pages';
-import About from './pages/about';
-import Services from './pages/services';
-import Contact from './pages/contact';
-import SignUp from './pages/signup';
+
+import About from './pages/About';
+import Dashboard from './pages/Dashboard';
+import Chat from './pages/Chat';
+import Support from './pages/Support';
+import Services from './pages/Services';
+
 
 function App() {
   return (
-    <Router>
-      <Navbar />
-      <Switch>
-        <Route path='/' exact component={Home} />
-        <Route path='/about' component={About} />
-        <Route path='/services' component={Services} />
-        <Route path='/contact-us' component={Contact} />
-        <Route path='/sign-up' component={SignUp} />
-      </Switch>
-    </Router>
+    <>
+      <Router>
+        <Navbar />
+        <Switch>
+          <Route path='/' exact component={About} />
+          <Route path='/dashboard' component={Dashboard} />
+          <Route path='/chat' component={Chat} />
+          <Route path='/support' component={Support} />
+          <Route path='/services' component={Services} />
+        </Switch>
+      </Router>
+      
+    </>
   );
 }
 
