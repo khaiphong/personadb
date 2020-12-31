@@ -1,5 +1,5 @@
 /* 
-  Copyright (c) 2017, 2018, 2019 KhaiPhong
+  Copyright (c) 2017, 2018, 2019, 2020, 2021 KhaiPhong
 
   Licensed under the Apache License, Version 2.0 (the "License"); you may not 
   use this file except in compliance with the License which can be copied at
@@ -9,6 +9,8 @@
   Unless required by applicable law or agreed to in writing, software
   distributed under the License is distributed on an "AS IS" BASIS,
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+
+the underlying BadgerDB is (1) wrapped with distriuted graph db in operation, Node-Solid-Server for pod (personal online data) sharing CD/CI via DockerHub and Kubernetes. PersonaDB is a business unit to support these operations in FP (functional programming), plus value-added in GitOp and Prometheus time series.
 */
 
 package main
