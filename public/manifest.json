@@ -1,6 +1,6 @@
 {
-  "short_name": "PersonaDB",
-  "name": "Database Services to Mu",
+  "short_name": "React App",
+  "name": "Create React App Sample",
   "icons": [
     {
       "src": "favicon.ico",
