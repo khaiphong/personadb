@@ -43,6 +43,10 @@ func Bucket() {
   fmt.Printf("Bucket features on Badger")
 }
 
+func Pod() {
+  fmt.Printf("Personal online data in Badger")
+}
+
 func Bees() {
   fmt.Printf("Business Economics Engineering System")
 }
